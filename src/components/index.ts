@@ -2,6 +2,7 @@ export { default as CodeEditor } from "./CodeEditor";
 export { default as CodePreview } from "./CodePreview";
 export { default as StyleCard } from "./StyleCard";
 export { default as StyleGallery } from "./StyleGallery";
+export { default as StyleSelectorModal } from "./StyleSelectorModal";
 export { default as PropertySlider } from "./PropertySlider";
 export { default as ElementPropertiesPanel } from "./ElementPropertiesPanel";
 export { default as CodeEditorSection } from "./CodeEditorSection";

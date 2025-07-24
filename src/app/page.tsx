@@ -2,7 +2,7 @@
 
 import { Container, Stack } from "@mantine/core";
 import { useState } from "react";
-import { HeroSection, StyleGallery, ElementPropertiesPanel, CodeEditorSection } from "@/components";
+import { HeroSection, StyleSelectorModal, ElementPropertiesPanel, CodeEditorSection } from "@/components";
 import { ElementCSSManipulator } from "@/utils/elementCSSManipulator";
 import { buttonStyles } from "@/data/buttonStyles";
 import { defaultElementProperties, defaultCodeValues, ElementProperties, CodeValues } from "@/data/defaultValues";
@@ -66,14 +66,8 @@ export default function Home() {
           {/* Hero Section */}
           <HeroSection />
 
-          {/* Element Style Gallery */}
-          <StyleGallery
-            title="Choose Your Element Style"
-            description="Select from our curated collection of beautiful element styles"
-            styles={buttonStyles}
-            selectedIndex={currentStyleIndex}
-            onStyleSelect={applyElementStyle}
-          />
+          {/* Style Selector Modal */}
+          <StyleSelectorModal styles={buttonStyles} selectedIndex={currentStyleIndex} onStyleSelect={applyElementStyle} />
 
           {/* Element Properties Control Panel */}
           <ElementPropertiesPanel elementProps={elementProps} onPropertyChange={updateElementProperty} />
