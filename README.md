@@ -1,8 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CSS Visualiser
 
-## Getting Started
+A modern CSS visualization tool built with the latest web technologies for an exceptional development experience.
 
-First, run the development server:
+## 🚀 Tech Stack
+
+- **[Next.js 15](https://nextjs.org)** - React framework with App Router and Turbopack
+- **[TypeScript](https://www.typescriptlang.org)** - Type-safe JavaScript development
+- **[Tailwind CSS](https://tailwindcss.com)** - Utility-first CSS framework
+- **[Mantine UI](https://mantine.dev)** - Modern React components library
+- **[Turbopack](https://turbo.build)** - Ultra-fast development builds
+- **ESLint** - Code quality and consistency
+
+## ✨ Features
+
+- ⚡ **Turbopack** for lightning-fast development builds
+- 🎨 **Hybrid Styling** - Tailwind CSS + Mantine UI components
+- 🔧 **TypeScript** for better development experience
+- 📱 **Responsive Design** - Mobile-first approach
+- 🌙 **Dark Mode Ready** - Built-in theme support
+- 🧩 **Component-Based** - Modular and reusable architecture
+
+## 🏃‍♂️ Getting Started
+
+### Prerequisites
+
+- Node.js 18+ 
+- npm, yarn, pnpm, or bun
+
+### Installation
+
+1. Clone the repository (if applicable) or use this existing setup
+2. Install dependencies:
+
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+```
+
+### Development
+
+Run the development server with Turbopack:
 
 ```bash
 npm run dev
@@ -10,27 +50,72 @@ npm run dev
 yarn dev
 # or
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The page auto-updates as you edit files - hot reloading is enabled by default.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Building for Production
 
-## Learn More
+```bash
+npm run build
+npm run start
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 📁 Project Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+src/
+  app/
+    layout.tsx          # Root layout with Mantine provider
+    page.tsx            # Home page showcasing the tech stack
+    globals.css         # Global styles and Tailwind imports
+  .github/
+    copilot-instructions.md  # Copilot customization
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🎨 Styling Approach
 
-## Deploy on Vercel
+This project uses a hybrid approach combining:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Tailwind CSS** for utility-first styling, layout, and spacing
+- **Mantine UI** for pre-built components and consistent theming
+- **CSS Variables** for dynamic theming and customization
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🛠 Development Commands
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start development server with Turbopack |
+| `npm run build` | Build for production |
+| `npm run start` | Start production server |
+| `npm run lint` | Run ESLint for code quality |
+
+## 🌟 Key Highlights
+
+- **Turbopack Integration**: Faster development builds and hot reloading
+- **Modern Next.js**: Using App Router for improved performance and developer experience
+- **Type Safety**: Full TypeScript support throughout the application
+- **Component Library**: Leveraging Mantine's comprehensive component ecosystem
+- **Responsive Design**: Mobile-first approach with Tailwind's responsive utilities
+
+## 📚 Learn More
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [Mantine Documentation](https://mantine.dev)
+- [TypeScript Documentation](https://www.typescriptlang.org/docs)
+- [Turbopack Documentation](https://turbo.build/pack/docs)
+
+## 🚢 Deployment
+
+The easiest way to deploy is using [Vercel](https://vercel.com/new):
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new)
+
+Alternatively, you can deploy to any platform that supports Node.js applications.
+
+---
+
+Built with ❤️ using modern web technologies
