@@ -12,62 +12,43 @@ interface CodePreviewProps {
 }
 
 export default function CodePreview({ htmlCode, cssCode, scssCode, tailwindCode, activeTab }: Readonly<CodePreviewProps>) {
-  const previewContent = useMemo(() => {
+  const { previewHtml, previewCss } = useMemo(() => {
     let finalHtml = htmlCode;
     let finalCss: string;
-    console.log(activeTab);
-    console.log(finalHtml);
 
-    // Hidden container CSS that's always applied but not visible to users
-    const hiddenContainerCSS = `
-      .container {
-        max-width: 800px;
-        margin: 0 auto;
+    // Base container styles for the preview
+    const baseContainerCSS = `
+      .preview-container {
+        max-width: 100%;
         padding: 2rem;
         font-family: 'Arial', sans-serif;
         text-align: center;
+        background: white;
+        min-height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
     `;
 
     // Use appropriate code based on active tab
     if (activeTab === "tailwind" && tailwindCode) {
+      // For Tailwind, extract the HTML content and apply Tailwind classes
       finalHtml = tailwindCode;
-      // For Tailwind, we need container styles + tailwind CDN
-      finalCss = hiddenContainerCSS;
+      finalCss = baseContainerCSS;
     } else if (activeTab === "scss" && scssCode) {
       // Note: In a real application, you'd want to compile SCSS to CSS
       // For this demo, we'll show the SCSS as-is with a note
-      finalCss = hiddenContainerCSS + scssCode;
+      finalCss = baseContainerCSS + scssCode;
     } else {
-      // For HTML and CSS tabs, combine hidden container CSS with user CSS
-      finalCss = hiddenContainerCSS + cssCode;
+      // For HTML and CSS tabs, combine base styles with user CSS
+      finalCss = baseContainerCSS + cssCode;
     }
 
-    // Wrap HTML content with container div for non-Tailwind tabs
-    if (activeTab !== "tailwind") {
-      finalHtml = `<div class="container">${finalHtml}</div>`;
-    } else {
-      // For Tailwind, add container div with Tailwind classes
-      finalHtml = `<div class="max-w-4xl mx-auto p-8 font-sans text-center">${finalHtml}</div>`;
-    }
-
-    // Create the complete HTML document
-    const htmlDocument = `
-      <!DOCTYPE html>
-      <html lang="en">
-      <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>CSS Visualiser Preview</title>
-        ${activeTab === "tailwind" ? '<script src="https://cdn.tailwindcss.com"></script>' : `<style>${finalCss}</style>`}
-      </head>
-      <body>
-        ${finalHtml}
-      </body>
-      </html>
-    `;
-
-    return htmlDocument;
+    return {
+      previewHtml: finalHtml,
+      previewCss: finalCss,
+    };
   }, [htmlCode, cssCode, scssCode, tailwindCode, activeTab]);
 
   return (
@@ -76,11 +57,20 @@ export default function CodePreview({ htmlCode, cssCode, scssCode, tailwindCode,
         Live Preview
       </Title>
       <div className="border border-gray-200 rounded-lg overflow-hidden bg-white">
-        <iframe srcDoc={previewContent} className="w-full h-96 border-0" title="Code Preview" sandbox="allow-scripts" />
+        {/* Dynamic CSS injection */}
+        <style dangerouslySetInnerHTML={{ __html: previewCss }} />
+
+        {/* Preview content container */}
+        <div className="preview-container w-full h-96" dangerouslySetInnerHTML={{ __html: previewHtml }} />
       </div>
       {activeTab === "scss" && (
         <div className="mt-2 p-2 bg-yellow-50 border border-yellow-200 rounded text-sm text-yellow-800">
           <strong>Note:</strong> SCSS preview shows raw SCSS code. In a production environment, this would be compiled to CSS.
+        </div>
+      )}
+      {activeTab === "tailwind" && (
+        <div className="mt-2 p-2 bg-blue-50 border border-blue-200 rounded text-sm text-blue-800">
+          <strong>Note:</strong> Tailwind classes are simulated. In a production environment, Tailwind CSS would be compiled.
         </div>
       )}
     </Card>

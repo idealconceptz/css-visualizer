@@ -1,8 +1,17 @@
 "use client";
 
-import { Container, Title, Text, Stack, Card } from "@mantine/core";
+import { Container, Title, Text, Stack, Card, Slider } from "@mantine/core";
 import { useState } from "react";
 import { CodeEditor, CodePreview } from "@/components";
+import { ButtonCSSManipulator, ButtonProperties } from "@/utils/buttonCSSManipulator";
+
+// Button properties interface
+interface ButtonProps {
+  width: number;
+  height: number;
+  padding: number;
+  fontSize: number;
+}
 
 // Button style presets
 const buttonStyles = [
@@ -11,10 +20,10 @@ const buttonStyles = [
     css: `.button {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  padding: 1rem 2rem;
+  padding: 16px 32px;
   border: none;
   border-radius: 12px;
-  font-size: 1.1rem;
+  font-size: 18px;
   font-weight: bold;
   cursor: pointer;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -36,10 +45,10 @@ const buttonStyles = [
     css: `.button {
   background: #000;
   color: #00ff41;
-  padding: 1rem 2rem;
+  padding: 16px 32px;
   border: 2px solid #00ff41;
   border-radius: 8px;
-  font-size: 1.1rem;
+  font-size: 18px;
   font-weight: bold;
   cursor: pointer;
   box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
@@ -263,6 +272,12 @@ const buttonStyles = [
 export default function Home() {
   const [activeTab, setActiveTab] = useState("html");
   const [currentStyleIndex, setCurrentStyleIndex] = useState(0);
+  const [buttonProps, setButtonProps] = useState({
+    width: 160, // in pixels
+    height: 56, // in pixels
+    padding: 16, // in pixels
+    fontSize: 18, // in pixels
+  });
   const [codeValues, setCodeValues] = useState({
     html: `<button class="button">
       Click Me!
@@ -270,10 +285,12 @@ export default function Home() {
     css: `.button {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  padding: 1rem 2rem;
+  min-width: 160px;
+  min-height: 56px;
+  padding: 16px;
   border: none;
   border-radius: 12px;
-  font-size: 1.1rem;
+  font-size: 18px;
   font-weight: bold;
   cursor: pointer;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -296,10 +313,12 @@ $border-radius: 12px;
 .button {
   background: linear-gradient(135deg, $gradient-start 0%, $gradient-end 100%);
   color: white;
-  padding: 1rem 2rem;
+  min-width: 160px;
+  min-height: 56px;
+  padding: 16px;
   border: none;
   border-radius: $border-radius;
-  font-size: 1.1rem;
+  font-size: 18px;
   font-weight: bold;
   cursor: pointer;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -334,11 +353,26 @@ $border-radius: 12px;
 
   const applyButtonStyle = (styleIndex: number) => {
     const selectedStyle = buttonStyles[styleIndex];
+    const updatedCSS = ButtonCSSManipulator.updateButtonProperties(selectedStyle.css, buttonProps);
+
     setCodeValues((prev) => ({
       ...prev,
-      css: selectedStyle.css,
+      css: updatedCSS,
     }));
     setCurrentStyleIndex(styleIndex);
+  };
+
+  const updateButtonProperty = (property: keyof ButtonProps, value: number) => {
+    const newProps = { ...buttonProps, [property]: value };
+    setButtonProps(newProps);
+
+    // Update the CSS with the new property values using utility
+    const updatedCSS = ButtonCSSManipulator.updateButtonProperties(buttonStyles[currentStyleIndex].css, newProps);
+
+    setCodeValues((prev) => ({
+      ...prev,
+      css: updatedCSS,
+    }));
   };
 
   return (
@@ -388,6 +422,78 @@ $border-radius: 12px;
                   </div>
                 </button>
               ))}
+            </div>
+          </Card>
+
+          {/* Button Properties Control Panel */}
+          <Card shadow="md" padding="xl" radius="md">
+            <Title order={2} className="mb-6 text-center">
+              Button Properties
+            </Title>
+            <Text size="lg" className="text-gray-600 dark:text-gray-300 text-center mb-8">
+              Adjust button dimensions and styling properties in real-time
+            </Text>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div>
+                <Text size="sm" fw={500} className="mb-3">
+                  Width: {buttonProps.width}px
+                </Text>
+                <Slider
+                  value={buttonProps.width}
+                  onChange={(value) => updateButtonProperty("width", value)}
+                  min={80}
+                  max={300}
+                  step={5}
+                  color="blue"
+                  size="md"
+                />
+              </div>
+
+              <div>
+                <Text size="sm" fw={500} className="mb-3">
+                  Height: {buttonProps.height}px
+                </Text>
+                <Slider
+                  value={buttonProps.height}
+                  onChange={(value) => updateButtonProperty("height", value)}
+                  min={30}
+                  max={100}
+                  step={2}
+                  color="green"
+                  size="md"
+                />
+              </div>
+
+              <div>
+                <Text size="sm" fw={500} className="mb-3">
+                  Padding: {buttonProps.padding}px
+                </Text>
+                <Slider
+                  value={buttonProps.padding}
+                  onChange={(value) => updateButtonProperty("padding", value)}
+                  min={4}
+                  max={40}
+                  step={2}
+                  color="orange"
+                  size="md"
+                />
+              </div>
+
+              <div>
+                <Text size="sm" fw={500} className="mb-3">
+                  Font Size: {buttonProps.fontSize}px
+                </Text>
+                <Slider
+                  value={buttonProps.fontSize}
+                  onChange={(value) => updateButtonProperty("fontSize", value)}
+                  min={10}
+                  max={32}
+                  step={1}
+                  color="purple"
+                  size="md"
+                />
+              </div>
             </div>
           </Card>
 
