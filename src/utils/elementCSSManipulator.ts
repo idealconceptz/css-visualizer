@@ -1,6 +1,6 @@
 import { SimpleCSSParser } from "./simpleCSSParser";
 
-export interface ButtonProperties {
+export interface ElementProperties {
   width: number;
   height: number;
   padding: number;
@@ -8,13 +8,13 @@ export interface ButtonProperties {
 }
 
 /**
- * Utility for manipulating button CSS properties
+ * Utility for manipulating CSS properties for any HTML element
  */
-export class ButtonCSSManipulator {
+export class ElementCSSManipulator {
   /**
-   * Update button properties in CSS string
+   * Update element properties in CSS string
    */
-  static updateButtonProperties(cssString: string, properties: ButtonProperties, selector = ".button"): string {
+  static updateElementProperties(cssString: string, properties: ElementProperties, selector = ".element"): string {
     // First, remove existing width/height related properties
     let updatedCSS = SimpleCSSParser.removeProperties(cssString, selector, ["width", "min-width", "max-width", "height", "min-height", "max-height"]);
 
@@ -30,9 +30,9 @@ export class ButtonCSSManipulator {
   }
 
   /**
-   * Extract current button properties from CSS
+   * Extract current element properties from CSS
    */
-  static extractButtonProperties(cssString: string, selector = ".button"): Partial<ButtonProperties> {
+  static extractElementProperties(cssString: string, selector = ".element"): Partial<ElementProperties> {
     const rules = SimpleCSSParser.parse(cssString);
 
     const targetRule = rules.find((rule) => rule.selector.includes(selector) || selector.includes(rule.selector.trim()));
@@ -41,7 +41,7 @@ export class ButtonCSSManipulator {
       return {};
     }
 
-    const properties: Partial<ButtonProperties> = {};
+    const properties: Partial<ElementProperties> = {};
 
     targetRule.properties.forEach((prop) => {
       const numericValue = parseFloat(prop.value);
@@ -73,8 +73,8 @@ export class ButtonCSSManipulator {
   /**
    * Update a single property in the CSS
    */
-  static updateSingleProperty(cssString: string, property: keyof ButtonProperties, value: number, selector = ".button"): string {
-    const propertyMap: Record<keyof ButtonProperties, string> = {
+  static updateSingleProperty(cssString: string, property: keyof ElementProperties, value: number, selector = ".element"): string {
+    const propertyMap: Record<keyof ElementProperties, string> = {
       width: "min-width",
       height: "min-height",
       padding: "padding",

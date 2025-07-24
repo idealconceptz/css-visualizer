@@ -1,11 +1,6 @@
-// in node_modules this crashes on edge functions, with i
-import { isEmpty } from "./isEmpty";
-import { altX, commentX, lineAttrX } from "./regex";
+// CSS string to JSON parser
 
-const capComment = 1;
-const capSelector = 2;
-const capEnd = 3;
-const capAttr = 4;
+const commentX = /\/\*[\s\S]*?\*\//g;
 
 /**
  * Input is css string and current pos, returns JSON object
@@ -28,7 +23,7 @@ const defaultArgs = {
 };
 
 export interface CssAttributes {
-  [attribute: string]: string;
+  [attribute: string]: string | string[];
 }
 
 export interface Children {
@@ -38,88 +33,177 @@ export interface Children {
   };
 }
 
+export interface OrderedNode {
+  name?: string;
+  value?: JSONNode | string;
+  type?: "rule" | "attr";
+}
+
 export interface JSONNode {
   children: Children;
   attributes: CssAttributes;
+  [key: number]: string | OrderedNode; // For ordered mode
 }
 
+/**
+ * Parse CSS string into JSON object
+ * @param cssString - The CSS string to parse
+ * @param args - Optional arguments for parsing behavior
+ */
 export const toJSON = function (cssString: string, args = defaultArgs): JSONNode {
   const node: JSONNode = {
     children: {},
     attributes: {},
   };
-  let match: RegExpExecArray | null = null;
-  let count = 0;
 
   if (args.stripComments) {
-    args.comments = false;
     cssString = cssString.replace(commentX, "");
   }
 
-  while ((match = altX.exec(cssString)) != null) {
-    if (!isEmpty(match[capComment]) && args.comments) {
-      // Comment
-      node[count++] = match[capComment]?.trim();
-    } else if (!isEmpty(match[capSelector])) {
-      // New node, we recurse
-      const name = match[capSelector]?.trim();
-      // This will return when we encounter a closing brace
-      const newNode = toJSON(cssString, args);
+  // Split CSS into rules
+  const rules = extractCSSRules(cssString);
+
+  let count = 0;
+  for (const rule of rules) {
+    if (rule.type === "comment" && args.comments && rule.content) {
       if (args.ordered) {
-        // Since we must use key as index to keep order and not
-        // name, this will differentiate between a Rule Node and an
-        // Attribute, since both contain a name and value pair.
-        node[count++] = { name, value: newNode, type: "rule" };
+        node[count++] = rule.content;
+      }
+    } else if (rule.type === "rule" && rule.selector && rule.declarations !== undefined) {
+      const selectors = args.split ? rule.selector.split(",") : [rule.selector];
+
+      if (args.ordered) {
+        const childNode = parseDeclarations(rule.declarations);
+        node[count++] = {
+          name: rule.selector,
+          value: childNode,
+          type: "rule",
+        };
       } else {
-        const bits = args.split ? name.split(",") : [name];
-        // console.log("bits", bits);
-        if (bits) {
-          for (const i in bits) {
-            // console.log("i", i);
-            if (bits[i] && typeof bits[i] === "string") {
-              const sel = bits[i]?.trim(); // was crashing here
-              // console.log("sel", sel);
-              if (sel) {
-                if (sel in node.children) {
-                  for (const att in newNode.attributes) {
-                    node.children[sel].attributes[att] = newNode.attributes[att];
-                  }
-                } else {
-                  node.children[sel] = newNode;
-                }
+        for (const selector of selectors) {
+          if (selector) {
+            const trimmedSelector = selector.trim();
+            if (trimmedSelector) {
+              const childNode = parseDeclarations(rule.declarations);
+
+              if (trimmedSelector in node.children) {
+                // Merge attributes
+                Object.assign(node.children[trimmedSelector].attributes, childNode.attributes);
+              } else {
+                node.children[trimmedSelector] = childNode;
               }
             }
           }
         }
       }
-    } else if (!isEmpty(match[capEnd])) {
-      // Node has finished
-      return node;
-    } else if (!isEmpty(match[capAttr])) {
-      const line = match[capAttr]?.trim();
-      const attr = lineAttrX.exec(line);
-      if (attr) {
-        // Attribute
-        const name: any = attr[1] ? attr[1]?.trim() : null;
-        const value = attr[2] ? attr[2]?.trim() : null;
-        if (args.ordered) {
-          node[count++] = { name, value, type: "attr" };
+    }
+  }
+
+  return node;
+};
+
+/**
+ * Extract CSS rules from a CSS string
+ */
+function extractCSSRules(cssString: string): Array<{ type: "rule" | "comment"; selector?: string; declarations?: string; content?: string }> {
+  const rules: Array<{ type: "rule" | "comment"; selector?: string; declarations?: string; content?: string }> = [];
+  let i = 0;
+
+  while (i < cssString.length) {
+    // Skip whitespace
+    while (i < cssString.length && /\s/.test(cssString[i])) {
+      i++;
+    }
+
+    if (i >= cssString.length) break;
+
+    // Check for comment
+    if (cssString.substring(i, i + 2) === "/*") {
+      const start = i;
+      i += 2;
+      while (i < cssString.length - 1) {
+        if (cssString.substring(i, i + 2) === "*/") {
+          i += 2;
+          break;
+        }
+        i++;
+      }
+      const comment = cssString.substring(start + 2, i - 2);
+      rules.push({ type: "comment", content: comment.trim() });
+      continue;
+    }
+
+    // Find selector (everything before the opening brace)
+    const selectorStart = i;
+    while (i < cssString.length && cssString[i] !== "{") {
+      i++;
+    }
+
+    if (i >= cssString.length) break;
+
+    const selector = cssString.substring(selectorStart, i).trim();
+    i++; // Skip opening brace
+
+    // Find declarations (everything between braces)
+    const declarationsStart = i;
+    let braceCount = 1;
+
+    while (i < cssString.length && braceCount > 0) {
+      if (cssString[i] === "{") {
+        braceCount++;
+      } else if (cssString[i] === "}") {
+        braceCount--;
+      }
+      i++;
+    }
+
+    const declarations = cssString.substring(declarationsStart, i - 1).trim();
+
+    if (selector && declarations !== undefined) {
+      rules.push({ type: "rule", selector, declarations });
+    }
+  }
+
+  return rules;
+}
+
+/**
+ * Parse CSS declarations into a JSONNode
+ */
+function parseDeclarations(declarations: string): JSONNode {
+  const node: JSONNode = {
+    children: {},
+    attributes: {},
+  };
+
+  if (!declarations) return node;
+
+  // Split by semicolon and parse each declaration
+  const decls = declarations.split(";");
+
+  for (const decl of decls) {
+    const trimmed = decl.trim();
+    if (!trimmed) continue;
+
+    const colonIndex = trimmed.indexOf(":");
+    if (colonIndex === -1) continue;
+
+    const property = trimmed.substring(0, colonIndex).trim();
+    const value = trimmed.substring(colonIndex + 1).trim();
+
+    if (property && value) {
+      if (property in node.attributes) {
+        const currentValue = node.attributes[property];
+        if (Array.isArray(currentValue)) {
+          currentValue.push(value);
         } else {
-          if (name in node.attributes) {
-            const currVal = node.attributes[name];
-            if (!(currVal instanceof Array)) {
-              node.attributes[name] = [currVal];
-            }
-            node.attributes[name].push(value);
-          } else {
-            node.attributes[name] = value;
-          }
+          node.attributes[property] = [currentValue, value];
         }
       } else {
-        // Semicolon terminated line
-        node[count++] = line;
+        node.attributes[property] = value;
       }
     }
   }
+
   return node;
-};
+}
