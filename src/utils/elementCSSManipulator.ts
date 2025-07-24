@@ -12,19 +12,25 @@ export interface ElementProperties {
  */
 export class ElementCSSManipulator {
   /**
-   * Update element properties in CSS string
+   * Update element properties in CSS string, preserving original font-size unless explicitly changed
    */
-  static updateElementProperties(cssString: string, properties: ElementProperties, selector = ".element"): string {
+  static updateElementProperties(cssString: string, properties: ElementProperties, selector = ".element", preserveOriginalFontSize = false): string {
     // First, remove existing width/height related properties
     let updatedCSS = SimpleCSSParser.removeProperties(cssString, selector, ["width", "min-width", "max-width", "height", "min-height", "max-height"]);
 
-    // Then update with new properties
-    updatedCSS = SimpleCSSParser.updateProperties(updatedCSS, selector, {
+    const updates: Record<string, string> = {
       "min-width": `${properties.width}px`,
       "min-height": `${properties.height}px`,
       padding: `${properties.padding}px`,
-      "font-size": `${properties.fontSize}px`,
-    });
+    };
+
+    // Only update font-size if we're not preserving the original
+    if (!preserveOriginalFontSize) {
+      updates["font-size"] = `${properties.fontSize}px`;
+    }
+
+    // Then update with new properties
+    updatedCSS = SimpleCSSParser.updateProperties(updatedCSS, selector, updates);
 
     return updatedCSS;
   }
@@ -61,9 +67,28 @@ export class ElementCSSManipulator {
           properties.padding = parseFloat(paddingValues[0]);
           break;
         }
-        case "font-size":
-          properties.fontSize = numericValue;
+        case "font-size": {
+          // Handle different font-size units
+          if (prop.value.includes("rem")) {
+            // Convert rem to px (assuming 1rem = 16px)
+            const remValue = parseFloat(prop.value);
+            properties.fontSize = remValue * 16;
+          } else if (prop.value.includes("em")) {
+            // Convert em to px (assuming 1em = 16px)
+            const emValue = parseFloat(prop.value);
+            properties.fontSize = emValue * 16;
+          } else if (prop.value.includes("px")) {
+            properties.fontSize = parseFloat(prop.value);
+          } else {
+            // Fallback for unitless values or other units
+            const numericValue = parseFloat(prop.value);
+            if (!isNaN(numericValue)) {
+              // If it's a reasonable font size number, assume px
+              properties.fontSize = numericValue > 50 ? numericValue : numericValue * 16;
+            }
+          }
           break;
+        }
       }
     });
 
