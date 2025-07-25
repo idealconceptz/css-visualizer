@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, Title, Text } from "@mantine/core";
+import { Card } from "@mantine/core";
 import { CodeEditor, CodePreview } from "@/components";
 import { CodeValues } from "@/data/defaultValues";
 
@@ -14,13 +14,9 @@ interface CodeEditorSectionProps {
 
 export default function CodeEditorSection({ codeValues, activeTab, onCodeChange, onTabChange, scssError }: Readonly<CodeEditorSectionProps>) {
   return (
-    <Card shadow="md" padding="xl" radius="md" className="mt-12">
-      <Title order={2} className="mb-6 text-center">
-        Interactive Code Editor
-      </Title>
-      <Text size="lg" className="text-gray-600 dark:text-gray-300 text-center mb-8">
-        Edit HTML, CSS, SCSS, or Tailwind code and see the results in real-time!
-      </Text>
+    <Card shadow="md" padding="xl" radius="md" className="mt-4">
+      <h2 className="mb-6 text-center text-xl bold">Interactive Code Editor</h2>
+      <p className="text-gray-600 dark:text-gray-300 text-center mb-8">Edit HTML, CSS, SCSS, or Tailwind code and see the results in real-time!</p>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Code Editor */}

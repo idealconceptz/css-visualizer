@@ -1,6 +1,5 @@
 "use client";
 
-import { Text } from "@mantine/core";
 import { ElementStyle } from "@/data/buttonStyles";
 
 interface StyleCardProps {
@@ -19,9 +18,7 @@ export default function StyleCard({ style, index, isSelected, onSelect }: Readon
       onClick={() => onSelect(index)}
     >
       <div className="text-center mb-3">
-        <Text size="sm" fw={500} className="text-gray-700 dark:text-gray-300">
-          {style.name}
-        </Text>
+        <p className="text-sm font-medium text-gray-700 dark:text-gray-300">{style.name}</p>
       </div>
       <div className="flex justify-center">
         <style

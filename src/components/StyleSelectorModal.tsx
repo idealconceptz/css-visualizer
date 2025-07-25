@@ -1,6 +1,6 @@
 "use client";
 
-import { Modal, Button, Text, Group } from "@mantine/core";
+import { Modal, Button, Group } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { ElementStyle } from "@/data/buttonStyles";
 import StyleCard from "./StyleCard";
@@ -23,7 +23,7 @@ export default function StyleSelectorModal({ styles, selectedIndex, onStyleSelec
 
   return (
     <>
-      <Group justify="center" className="mb-6">
+      <Group justify="center" className="mb-2">
         <Button
           onClick={open}
           size="lg"
@@ -49,9 +49,7 @@ export default function StyleSelectorModal({ styles, selectedIndex, onStyleSelec
         radius="md"
         padding="xl"
       >
-        <Text size="lg" className="text-gray-600 dark:text-gray-300 text-center mb-6">
-          Select from our curated collection of beautiful element styles
-        </Text>
+        <p className="text-lg text-gray-600 dark:text-gray-300 text-center mb-6">Select from our curated collection of beautiful element styles</p>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-h-96 overflow-y-auto">
           {styles.map((style, index) => (

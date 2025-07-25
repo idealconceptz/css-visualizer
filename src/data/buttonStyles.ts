@@ -1,6 +1,7 @@
 export interface ElementStyle {
   name: string;
   css: string;
+  scss?: string; // Optional for now, will add SCSS versions progressively
 }
 
 export const buttonStyles: ElementStyle[] = [
@@ -28,6 +29,35 @@ export const buttonStyles: ElementStyle[] = [
   transform: translateY(0);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }`,
+    scss: `$primary-color: #667eea;
+$secondary-color: #764ba2;
+$text-color: white;
+$padding: 16px 32px;
+$border-radius: 12px;
+$font-size: 18px;
+
+.element {
+  background: linear-gradient(135deg, $primary-color 0%, $secondary-color 100%);
+  color: $text-color;
+  padding: $padding;
+  border: none;
+  border-radius: $border-radius;
+  font-size: $font-size;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  }
+}`,
   },
   {
     name: "Neon Glow",
@@ -53,6 +83,34 @@ export const buttonStyles: ElementStyle[] = [
   background: #00ff41;
   color: #000;
 }`,
+    scss: `$neon-color: #00ff41;
+$background-color: #000;
+$padding: 16px 32px;
+$border-radius: 8px;
+$font-size: 18px;
+
+.element {
+  background: $background-color;
+  color: $neon-color;
+  padding: $padding;
+  border: 2px solid $neon-color;
+  border-radius: $border-radius;
+  font-size: $font-size;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 0 30px rgba(0, 255, 65, 0.8);
+    text-shadow: 0 0 10px $neon-color;
+  }
+
+  &:active {
+    background: $neon-color;
+    color: $background-color;
+  }
+}`,
   },
   {
     name: "Glass Morphism",
@@ -77,6 +135,35 @@ export const buttonStyles: ElementStyle[] = [
 
 .element:active {
   transform: translateY(0);
+}`,
+    scss: `$glass-bg: rgba(255, 255, 255, 0.2);
+$glass-border: rgba(255, 255, 255, 0.3);
+$text-color: #333;
+$border-radius: 16px;
+$padding: 1rem 2rem;
+$font-size: 1.1rem;
+
+.element {
+  background: $glass-bg;
+  color: $text-color;
+  padding: $padding;
+  border: 1px solid $glass-border;
+  border-radius: $border-radius;
+  font-size: $font-size;
+  font-weight: bold;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
 }`,
   },
   {
@@ -106,6 +193,38 @@ export const buttonStyles: ElementStyle[] = [
   transform: translate(2px, 2px);
   box-shadow: 2px 2px 0 #333;
 }`,
+    scss: `$primary-color: #ff6b6b;
+$hover-color: #ff5252;
+$border-color: #333;
+$text-color: white;
+$padding: 1rem 2rem;
+$font-size: 1.1rem;
+
+.element {
+  background: $primary-color;
+  color: $text-color;
+  padding: $padding;
+  border: 4px solid $border-color;
+  border-radius: 0;
+  font-size: $font-size;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: 'Courier New', monospace;
+  text-transform: uppercase;
+  box-shadow: 4px 4px 0 $border-color;
+  transition: all 0.1s ease;
+
+  &:hover {
+    background: $hover-color;
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 $border-color;
+  }
+
+  &:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 $border-color;
+  }
+}`,
   },
   {
     name: "Minimalist",
@@ -129,6 +248,36 @@ export const buttonStyles: ElementStyle[] = [
 .element:active {
   background: #f0f0f0;
 }`,
+    scss: `$bg-color: white;
+$text-color: #333;
+$border-color: #ddd;
+$hover-border: #333;
+$hover-bg: #f9f9f9;
+$active-bg: #f0f0f0;
+$padding: 1rem 2rem;
+$border-radius: 4px;
+$font-size: 1rem;
+
+.element {
+  background: $bg-color;
+  color: $text-color;
+  padding: $padding;
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+  font-size: $font-size;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: $hover-border;
+    background: $hover-bg;
+  }
+
+  &:active {
+    background: $active-bg;
+  }
+}`,
   },
   {
     name: "Neumorphism",
@@ -151,6 +300,34 @@ export const buttonStyles: ElementStyle[] = [
 
 .element:active {
   box-shadow: inset 5px 5px 10px #a3b1c6, inset -5px -5px 10px #ffffff;
+}`,
+    scss: `$bg-color: #e0e5ec;
+$text-color: #333;
+$shadow-dark: #a3b1c6;
+$shadow-light: #ffffff;
+$border-radius: 20px;
+$padding: 1rem 2rem;
+$font-size: 1.1rem;
+
+.element {
+  background: $bg-color;
+  color: $text-color;
+  padding: $padding;
+  border: none;
+  border-radius: $border-radius;
+  font-size: $font-size;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 9px 9px 16px $shadow-dark, -9px -9px 16px $shadow-light;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: inset 9px 9px 16px $shadow-dark, inset -9px -9px 16px $shadow-light;
+  }
+
+  &:active {
+    box-shadow: inset 5px 5px 10px $shadow-dark, inset -5px -5px 10px $shadow-light;
+  }
 }`,
   },
   {
@@ -176,6 +353,35 @@ export const buttonStyles: ElementStyle[] = [
 
 .element:active {
   transform: scale(0.98);
+}`,
+    scss: `$fire-gradient: linear-gradient(45deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+$hover-gradient: linear-gradient(45deg, #ff6b6b 0%, #feca57 50%, #ff9ff3 100%);
+$text-color: #d73502;
+$border-radius: 25px;
+$padding: 1rem 2rem;
+$font-size: 1.1rem;
+
+.element {
+  background: $fire-gradient;
+  color: $text-color;
+  padding: $padding;
+  border: none;
+  border-radius: $border-radius;
+  font-size: $font-size;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(255, 154, 158, 0.4);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: $hover-gradient;
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
 }`,
   },
   {
@@ -204,6 +410,37 @@ export const buttonStyles: ElementStyle[] = [
 .element:active {
   background: linear-gradient(45deg, #7928ca, #ff0080);
 }`,
+    scss: `$primary-color: #ff0080;
+$secondary-color: #7928ca;
+$text-color: white;
+$padding: 1rem 2rem;
+$font-size: 1.1rem;
+$letter-spacing: 2px;
+
+.element {
+  background: linear-gradient(45deg, $primary-color, $secondary-color);
+  color: $text-color;
+  padding: $padding;
+  border: 2px solid $primary-color;
+  border-radius: 0;
+  font-size: $font-size;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: $letter-spacing;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 0 30px $primary-color;
+    border-color: $secondary-color;
+  }
+
+  &:active {
+    background: linear-gradient(45deg, $secondary-color, $primary-color);
+  }
+}`,
   },
   {
     name: "Ocean Wave",
@@ -230,6 +467,36 @@ export const buttonStyles: ElementStyle[] = [
 .element:active {
   transform: translateY(-1px);
 }`,
+    scss: `$ocean-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+$wave-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+$text-color: white;
+$border-radius: 50px;
+$padding: 1rem 2rem;
+$font-size: 1.1rem;
+
+.element {
+  background: $ocean-gradient;
+  color: $text-color;
+  padding: $padding;
+  border: none;
+  border-radius: $border-radius;
+  font-size: $font-size;
+  font-weight: bold;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: $wave-gradient;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(79, 172, 254, 0.4);
+  }
+
+  &:active {
+    transform: translateY(-1px);
+  }
+}`,
   },
   {
     name: "Dark Mode",
@@ -254,6 +521,38 @@ export const buttonStyles: ElementStyle[] = [
 .element:active {
   background: #000;
   transform: translateY(1px);
+}`,
+    scss: `$dark-bg: #1a1a1a;
+$dark-hover: #333;
+$dark-active: #000;
+$dark-border: #333;
+$dark-border-hover: #555;
+$text-color: #ffffff;
+$padding: 1rem 2rem;
+$border-radius: 8px;
+$font-size: 1.1rem;
+
+.element {
+  background: $dark-bg;
+  color: $text-color;
+  padding: $padding;
+  border: 1px solid $dark-border;
+  border-radius: $border-radius;
+  font-size: $font-size;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: $dark-hover;
+    border-color: $dark-border-hover;
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+  }
+
+  &:active {
+    background: $dark-active;
+    transform: translateY(1px);
+  }
 }`,
   },
   {
@@ -286,6 +585,40 @@ export const buttonStyles: ElementStyle[] = [
 .element:active {
   transform: scale(0.98);
 }`,
+    scss: `$holo-gradient: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+$text-color: white;
+$padding: 1rem 2rem;
+$border-radius: 15px;
+$font-size: 1.1rem;
+
+@keyframes holographic {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.element {
+  background: $holo-gradient;
+  background-size: 400% 400%;
+  color: $text-color;
+  padding: $padding;
+  border: none;
+  border-radius: $border-radius;
+  font-size: $font-size;
+  font-weight: bold;
+  cursor: pointer;
+  animation: holographic 3s ease infinite;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}`,
   },
   {
     name: "Brutalist",
@@ -314,6 +647,41 @@ export const buttonStyles: ElementStyle[] = [
 .element:active {
   transform: translate(4px, 4px);
   box-shadow: 4px 4px 0 black;
+}`,
+    scss: `$brutal-bg: #ff4444;
+$brutal-hover: #ff6666;
+$text-color: black;
+$border-color: black;
+$padding: 1.2rem 2.5rem;
+$border-width: 6px;
+$font-size: 1.2rem;
+$letter-spacing: 2px;
+
+.element {
+  background: $brutal-bg;
+  color: $text-color;
+  padding: $padding;
+  border: $border-width solid $border-color;
+  border-radius: 0;
+  font-size: $font-size;
+  font-weight: 900;
+  cursor: pointer;
+  font-family: 'Arial Black', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: $letter-spacing;
+  box-shadow: 8px 8px 0 $border-color;
+  transition: all 0.1s ease;
+
+  &:hover {
+    background: $brutal-hover;
+    transform: translate(-2px, -2px);
+    box-shadow: 10px 10px 0 $border-color;
+  }
+
+  &:active {
+    transform: translate(4px, 4px);
+    box-shadow: 4px 4px 0 $border-color;
+  }
 }`,
   },
   {
@@ -347,6 +715,43 @@ export const buttonStyles: ElementStyle[] = [
 .element:active {
   transform: translateY(-1px);
 }`,
+    scss: `$aurora-gradient: linear-gradient(45deg, #00c9ff 0%, #92fe9d 35%, #ff9a9e 70%, #fad0c4 100%);
+$text-color: white;
+$padding: 1rem 2rem;
+$border-radius: 25px;
+$font-size: 1.1rem;
+$glow-color: rgba(0, 201, 255, 0.3);
+$glow-hover: rgba(0, 201, 255, 0.6);
+
+@keyframes aurora {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.element {
+  background: $aurora-gradient;
+  background-size: 300% 300%;
+  color: $text-color;
+  padding: $padding;
+  border: none;
+  border-radius: $border-radius;
+  font-size: $font-size;
+  font-weight: bold;
+  cursor: pointer;
+  animation: aurora 4s ease infinite;
+  box-shadow: 0 0 20px $glow-color;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 0 30px $glow-hover;
+    transform: translateY(-3px);
+  }
+
+  &:active {
+    transform: translateY(-1px);
+  }
+}`,
   },
   {
     name: "Vintage Paper",
@@ -373,6 +778,38 @@ export const buttonStyles: ElementStyle[] = [
 
 .element:active {
   transform: translateY(0);
+}`,
+    scss: `$paper-bg: #f4f1e8;
+$paper-hover: #f9f6ed;
+$text-color: #8b4513;
+$border-color: #d2b48c;
+$padding: 1rem 2rem;
+$border-radius: 3px;
+$font-size: 1rem;
+
+.element {
+  background: $paper-bg;
+  color: $text-color;
+  padding: $padding;
+  border: 2px solid $border-color;
+  border-radius: $border-radius;
+  font-size: $font-size;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Times New Roman', serif;
+  box-shadow: inset 0 0 20px rgba(210, 180, 140, 0.3), 2px 2px 4px rgba(0, 0, 0, 0.2);
+  position: relative;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: $paper-hover;
+    transform: translateY(-1px);
+    box-shadow: inset 0 0 25px rgba(210, 180, 140, 0.4), 3px 3px 6px rgba(0, 0, 0, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
 }`,
   },
   {
@@ -414,6 +851,50 @@ export const buttonStyles: ElementStyle[] = [
 .element:active {
   transform: scale(0.98);
 }`,
+    scss: `$metal-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+$shine-effect: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+$text-color: white;
+$padding: 1rem 2rem;
+$border-radius: 50px;
+$font-size: 1.1rem;
+
+.element {
+  background: $metal-gradient;
+  color: $text-color;
+  padding: $padding;
+  border: none;
+  border-radius: $border-radius;
+  font-size: $font-size;
+  font-weight: bold;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: $shine-effect;
+    transition: left 0.5s ease;
+  }
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+
+    &:before {
+      left: 100%;
+    }
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}`,
   },
   {
     name: "Glitch Effect",
@@ -450,6 +931,45 @@ export const buttonStyles: ElementStyle[] = [
   background: #00ff00;
   color: #000;
 }`,
+    scss: `$bg-color: #000;
+$text-color: #00ff00;
+$border-color: #00ff00;
+$padding: 1rem 2rem;
+$font-size: 1.1rem;
+
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+.element {
+  background: $bg-color;
+  color: $text-color;
+  padding: $padding;
+  border: 2px solid $border-color;
+  border-radius: 0;
+  font-size: $font-size;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: 'Courier New', monospace;
+  text-transform: uppercase;
+  position: relative;
+  transition: all 0.3s ease;
+
+  &:hover {
+    animation: glitch 0.3s ease;
+    box-shadow: 0 0 20px $border-color;
+  }
+
+  &:active {
+    background: $text-color;
+    color: $bg-color;
+  }
+}`,
   },
   {
     name: "Soft Pastel",
@@ -475,6 +995,37 @@ export const buttonStyles: ElementStyle[] = [
 
 .element:active {
   transform: translateY(0);
+}`,
+    scss: `$pastel-gradient: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+$pastel-hover: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+$text-color: #8b4513;
+$text-hover: white;
+$padding: 1rem 2rem;
+$border-radius: 20px;
+$font-size: 1rem;
+
+.element {
+  background: $pastel-gradient;
+  color: $text-color;
+  padding: $padding;
+  border: none;
+  border-radius: $border-radius;
+  font-size: $font-size;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(252, 182, 159, 0.3);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: $pastel-hover;
+    color: $text-hover;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(252, 182, 159, 0.4);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
 }`,
   },
   {
@@ -509,6 +1060,44 @@ export const buttonStyles: ElementStyle[] = [
     0 0 15px #ff073a,
     inset 0 0 15px rgba(255, 7, 58, 0.3);
 }`,
+    scss: `$neon-color: #ff073a;
+$text-color: #ff073a;
+$text-hover: white;
+$padding: 1rem 2rem;
+$border-radius: 8px;
+$font-size: 1.1rem;
+$border-width: 3px;
+
+.element {
+  background: transparent;
+  color: $text-color;
+  padding: $padding;
+  border: $border-width solid $neon-color;
+  border-radius: $border-radius;
+  font-size: $font-size;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 
+    0 0 10px $neon-color,
+    inset 0 0 10px transparent;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: $neon-color;
+    color: $text-hover;
+    box-shadow: 
+      0 0 20px $neon-color,
+      0 0 40px $neon-color,
+      inset 0 0 20px rgba(255, 7, 58, 0.2);
+    text-shadow: 0 0 10px $text-hover;
+  }
+
+  &:active {
+    box-shadow: 
+      0 0 15px $neon-color,
+      inset 0 0 15px rgba(255, 7, 58, 0.3);
+  }
+}`,
   },
   {
     name: "Material Design",
@@ -539,6 +1128,42 @@ export const buttonStyles: ElementStyle[] = [
   transform: translateY(0);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }`,
+    scss: `$material-blue: #2196f3;
+$material-blue-dark: #1976d2;
+$text-color: white;
+$padding: 1rem 2rem;
+$border-radius: 4px;
+$font-size: 1rem;
+$letter-spacing: 0.5px;
+$material-ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+.element {
+  background: $material-blue;
+  color: $text-color;
+  padding: $padding;
+  border: none;
+  border-radius: $border-radius;
+  font-size: $font-size;
+  font-weight: 500;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: $letter-spacing;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s $material-ease;
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    background: $material-blue-dark;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+}`,
   },
   {
     name: "Retro Synthwave",
@@ -566,6 +1191,40 @@ export const buttonStyles: ElementStyle[] = [
 
 .element:active {
   transform: scale(0.98);
+}`,
+    scss: `$synthwave-gradient: linear-gradient(45deg, #ff006e, #8338ec, #3a86ff);
+$border-color: #ff006e;
+$text-color: white;
+$padding: 1rem 2rem;
+$font-size: 1.1rem;
+$letter-spacing: 2px;
+$glow-color: rgba(255, 0, 110, 0.5);
+$glow-hover: rgba(255, 0, 110, 0.8);
+
+.element {
+  background: $synthwave-gradient;
+  color: $text-color;
+  padding: $padding;
+  border: 2px solid $border-color;
+  border-radius: 0;
+  font-size: $font-size;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: 'Courier New', monospace;
+  text-transform: uppercase;
+  letter-spacing: $letter-spacing;
+  box-shadow: 0 0 20px $glow-color;
+  position: relative;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px $glow-hover;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
 }`,
   },
   {
@@ -603,6 +1262,47 @@ export const buttonStyles: ElementStyle[] = [
     inset 0 -1px 3px rgba(218, 165, 32, 0.7),
     0 1px 3px rgba(0, 0, 0, 0.3);
 }`,
+    scss: `$wood-gradient: linear-gradient(135deg, #8b4513 0%, #daa520 50%, #8b4513 100%);
+$wood-hover: linear-gradient(135deg, #a0522d 0%, #f0e68c 50%, #a0522d 100%);
+$text-color: #f5deb3;
+$border-color: #654321;
+$padding: 1rem 2rem;
+$border-radius: 8px;
+$font-size: 1.1rem;
+
+.element {
+  background: $wood-gradient;
+  color: $text-color;
+  padding: $padding;
+  border: 3px solid $border-color;
+  border-radius: $border-radius;
+  font-size: $font-size;
+  font-weight: bold;
+  cursor: pointer;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 
+    inset 0 1px 3px rgba(218, 165, 32, 0.7),
+    inset 0 -1px 3px rgba(101, 67, 33, 0.7),
+    0 3px 6px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: $wood-hover;
+    transform: translateY(-1px);
+    box-shadow: 
+      inset 0 1px 3px rgba(240, 230, 140, 0.7),
+      inset 0 -1px 3px rgba(101, 67, 33, 0.7),
+      0 4px 8px rgba(0, 0, 0, 0.4);
+  }
+
+  &:active {
+    transform: translateY(1px);
+    box-shadow: 
+      inset 0 1px 3px rgba(101, 67, 33, 0.7),
+      inset 0 -1px 3px rgba(218, 165, 32, 0.7),
+      0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+}`,
   },
   {
     name: "Bubble Gum",
@@ -628,6 +1328,37 @@ export const buttonStyles: ElementStyle[] = [
 
 .element:active {
   transform: scale(1.05);
+}`,
+    scss: `$bubble-gradient: radial-gradient(circle, #ff9a9e 0%, #fad0c4 100%);
+$text-color: #8b008b;
+$padding: 1rem 2rem;
+$border-radius: 50px;
+$font-size: 1.1rem;
+$shadow-color: rgba(255, 154, 158, 0.4);
+$shadow-hover: rgba(255, 154, 158, 0.6);
+
+.element {
+  background: $bubble-gradient;
+  color: $text-color;
+  padding: $padding;
+  border: none;
+  border-radius: $border-radius;
+  font-size: $font-size;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 8px 20px $shadow-color;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 30px $shadow-hover;
+  }
+
+  &:active {
+    transform: scale(1.05);
+  }
 }`,
   },
   {
@@ -660,6 +1391,42 @@ export const buttonStyles: ElementStyle[] = [
     0 0 15px #00ff00,
     inset 0 0 15px rgba(0, 255, 0, 0.2);
 }`,
+    scss: `$bg-dark: #0a0a0a;
+$bg-hover: #001100;
+$bg-active: #002200;
+$circuit-color: #00ff00;
+$padding: 1rem 2rem;
+$border-radius: 4px;
+$font-size: 1rem;
+
+.element {
+  background: $bg-dark;
+  color: $circuit-color;
+  padding: $padding;
+  border: 2px solid $circuit-color;
+  border-radius: $border-radius;
+  font-size: $font-size;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: 'Courier New', monospace;
+  position: relative;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: $bg-hover;
+    box-shadow: 
+      0 0 10px $circuit-color,
+      inset 0 0 10px rgba(0, 255, 0, 0.1);
+    text-shadow: 0 0 5px $circuit-color;
+  }
+
+  &:active {
+    background: $bg-active;
+    box-shadow: 
+      0 0 15px $circuit-color,
+      inset 0 0 15px rgba(0, 255, 0, 0.2);
+  }
+}`,
   },
   {
     name: "Frosted Glass",
@@ -688,6 +1455,42 @@ export const buttonStyles: ElementStyle[] = [
 .element:active {
   transform: translateY(0);
   background: rgba(255, 255, 255, 0.15);
+}`,
+    scss: `$glass-bg: rgba(255, 255, 255, 0.1);
+$glass-hover: rgba(255, 255, 255, 0.2);
+$glass-active: rgba(255, 255, 255, 0.15);
+$glass-border: rgba(255, 255, 255, 0.2);
+$glass-border-hover: rgba(255, 255, 255, 0.3);
+$text-color: #333;
+$padding: 1rem 2rem;
+$border-radius: 20px;
+$font-size: 1.1rem;
+
+.element {
+  background: $glass-bg;
+  color: $text-color;
+  padding: $padding;
+  border: 1px solid $glass-border;
+  border-radius: $border-radius;
+  font-size: $font-size;
+  font-weight: 600;
+  cursor: pointer;
+  backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
+  transition: all 0.3s ease;
+  position: relative;
+
+  &:hover {
+    background: $glass-hover;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(31, 38, 135, 0.3);
+    border-color: $glass-border-hover;
+  }
+
+  &:active {
+    transform: translateY(0);
+    background: $glass-active;
+  }
 }`,
   },
   {
@@ -718,6 +1521,42 @@ export const buttonStyles: ElementStyle[] = [
 .element:active {
   transform: translateY(0);
   box-shadow: 0 0 20px rgba(42, 82, 152, 0.4);
+}`,
+    scss: `$electric-gradient: linear-gradient(45deg, #1e3c72, #2a5298);
+$electric-hover: linear-gradient(45deg, #2a5298, #1e3c72);
+$text-color: white;
+$padding: 1rem 2rem;
+$border-radius: 8px;
+$font-size: 1.1rem;
+$electric-glow: rgba(42, 82, 152, 0.4);
+$electric-glow-strong: rgba(42, 82, 152, 0.6);
+
+.element {
+  background: $electric-gradient;
+  color: $text-color;
+  padding: $padding;
+  border: none;
+  border-radius: $border-radius;
+  font-size: $font-size;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 20px $electric-glow;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    background: $electric-hover;
+    box-shadow: 
+      0 0 30px $electric-glow-strong,
+      0 0 60px $electric-glow;
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 0 20px $electric-glow;
+  }
 }`,
   },
   {
@@ -756,6 +1595,48 @@ export const buttonStyles: ElementStyle[] = [
     inset 0 -2px 4px rgba(255, 210, 0, 0.6),
     0 2px 4px rgba(0, 0, 0, 0.3);
 }`,
+    scss: `$gold-gradient: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
+$gold-hover: linear-gradient(135deg, #ffd200 0%, #f7971e 100%);
+$text-color: #8b4513;
+$border-color: #b8860b;
+$padding: 1rem 2rem;
+$border-radius: 10px;
+$font-size: 1.1rem;
+
+.element {
+  background: $gold-gradient;
+  color: $text-color;
+  padding: $padding;
+  border: 3px solid $border-color;
+  border-radius: $border-radius;
+  font-size: $font-size;
+  font-weight: bold;
+  cursor: pointer;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 
+    inset 0 2px 4px rgba(255, 210, 0, 0.6),
+    inset 0 -2px 4px rgba(184, 134, 11, 0.6),
+    0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  position: relative;
+
+  &:hover {
+    background: $gold-hover;
+    transform: translateY(-1px);
+    box-shadow: 
+      inset 0 2px 4px rgba(255, 210, 0, 0.8),
+      inset 0 -2px 4px rgba(184, 134, 11, 0.6),
+      0 6px 12px rgba(0, 0, 0, 0.4);
+  }
+
+  &:active {
+    transform: translateY(1px);
+    box-shadow: 
+      inset 0 2px 4px rgba(184, 134, 11, 0.6),
+      inset 0 -2px 4px rgba(255, 210, 0, 0.6),
+      0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+}`,
   },
   {
     name: "Cosmic Nebula",
@@ -787,6 +1668,47 @@ export const buttonStyles: ElementStyle[] = [
 
 .element:active {
   transform: scale(0.98);
+}`,
+    scss: `$nebula-gradient: radial-gradient(ellipse at center, #833ab4 0%, #fd1d1d 50%, #fcb045 100%);
+$text-color: white;
+$padding: 1rem 2rem;
+$border-radius: 25px;
+$font-size: 1.1rem;
+$purple-glow: rgba(131, 58, 180, 0.5);
+$red-glow: rgba(253, 29, 29, 0.3);
+$orange-glow: rgba(252, 176, 69, 0.2);
+$purple-glow-strong: rgba(131, 58, 180, 0.7);
+$red-glow-strong: rgba(253, 29, 29, 0.5);
+$orange-glow-strong: rgba(252, 176, 69, 0.3);
+
+.element {
+  background: $nebula-gradient;
+  color: $text-color;
+  padding: $padding;
+  border: none;
+  border-radius: $border-radius;
+  font-size: $font-size;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 
+    0 0 20px $purple-glow,
+    0 0 40px $red-glow,
+    0 0 60px $orange-glow;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 
+      0 0 30px $purple-glow-strong,
+      0 0 60px $red-glow-strong,
+      0 0 90px $orange-glow-strong;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
 }`,
   },
 ];

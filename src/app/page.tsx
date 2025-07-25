@@ -99,7 +99,13 @@ export default function Home() {
 
     // Update CSS preserving the original font-size and padding from the style
     const updatedCSS = ElementCSSManipulator.updateElementProperties(selectedStyle.css, mergedProps, ".element", true, true);
-    setCodeValues((prev) => ({ ...prev, css: updatedCSS }));
+
+    // Update both CSS and SCSS tabs
+    setCodeValues((prev) => ({
+      ...prev,
+      css: updatedCSS,
+      scss: selectedStyle.scss || updatedCSS, // Use SCSS if available, otherwise fall back to CSS
+    }));
   };
 
   const updateElementProperty = (property: keyof ElementProperties, value: number) => {

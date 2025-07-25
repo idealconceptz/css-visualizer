@@ -1,6 +1,6 @@
 "use client";
 
-import { Text, Slider } from "@mantine/core";
+import { Slider } from "@mantine/core";
 
 interface PropertySliderProps {
   label: string;
@@ -16,10 +16,10 @@ interface PropertySliderProps {
 export default function PropertySlider({ label, value, min, max, step, color, unit = "px", onChange }: Readonly<PropertySliderProps>) {
   return (
     <div>
-      <Text size="sm" fw={500} className="mb-3">
+      <p className="text-sm font-medium mb-3">
         {label}: {value}
         {unit}
-      </Text>
+      </p>
       <Slider value={value} onChange={onChange} min={min} max={max} step={step} color={color} size="md" />
     </div>
   );

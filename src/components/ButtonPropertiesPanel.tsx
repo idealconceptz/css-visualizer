@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, Title, Text } from "@mantine/core";
+import { Card } from "@mantine/core";
 import PropertySlider from "./PropertySlider";
 import { ElementProperties } from "@/data/defaultValues";
 
@@ -19,12 +19,8 @@ export default function ElementPropertiesPanel({
 }: Readonly<ElementPropertiesPanelProps>) {
   return (
     <Card shadow="md" padding="xl" radius="md">
-      <Title order={2} className="mb-6 text-center">
-        {title}
-      </Title>
-      <Text size="lg" className="text-gray-600 dark:text-gray-300 text-center mb-8">
-        {description}
-      </Text>
+      <h2 className="mb-2 text-center">{title}</h2>
+      <p className="text-gray-600 dark:text-gray-300 text-center mb-8">{description}</p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <PropertySlider

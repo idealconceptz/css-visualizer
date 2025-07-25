@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, Title, SimpleGrid } from "@mantine/core";
+import { Card, SimpleGrid } from "@mantine/core";
 import { ElementProperties } from "@/data/defaultValues";
 import PropertySlider from "./PropertySlider";
 
@@ -12,9 +12,7 @@ interface ElementPropertiesPanelProps {
 export default function ElementPropertiesPanel({ elementProps, onPropertyChange }: ElementPropertiesPanelProps) {
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
-      <Title order={3} className="mb-4">
-        Element Properties
-      </Title>
+      <h2 className="mb-4 text-center text-xl">Element Properties</h2>
       <SimpleGrid cols={{ base: 1, sm: 2, lg: 4 }} spacing="md">
         <PropertySlider
           label="Width (px)"

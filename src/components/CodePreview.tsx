@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, Title } from "@mantine/core";
+import { Card } from "@mantine/core";
 import { SCSSCompiler } from "@/utils/scssCompiler";
 
 interface CodePreviewProps {
@@ -57,9 +57,7 @@ export default function CodePreview({ htmlCode, cssCode, scssCode, tailwindCode,
 
   return (
     <Card withBorder className="w-full h-full">
-      <Title order={4} className="mb-4">
-        Live Preview
-      </Title>
+      <h4 className="mb-4 text-lg font-semibold">Live Preview</h4>
       <div className="border border-gray-200 rounded-lg overflow-hidden bg-white">
         {/* Dynamic CSS injection */}
         <style dangerouslySetInnerHTML={{ __html: previewCss }} />
