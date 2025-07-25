@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { MantineProvider } from '@mantine/core';
+import { MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
 import "./globals.css";
 
@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CSS Visualiser",
-  description: "A modern CSS visualization tool built with Next.js, TypeScript, Tailwind CSS, and Mantine",
+  title: "CSS/SCSS Visualiser",
+  description: "A modern CSS/SCSS visualization tool built with Next.js, TypeScript, Tailwind CSS, and Mantine",
 };
 
 export default function RootLayout({
@@ -26,12 +26,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <MantineProvider>
-          {children}
-        </MantineProvider>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <MantineProvider>{children}</MantineProvider>
       </body>
     </html>
   );

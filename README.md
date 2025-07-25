@@ -1,8 +1,8 @@
 # CSS Visualiser
 
-A modern CSS visualization tool built with the latest web technologies for an exceptional development experience.
+A modern CSS/SCSS/Tailwind visualization tool built with the latest web technologies.
 
-Demo at https://css-visualizer-flame.vercel.app/
+Demo at <a href="https://css-visualizer-flame.vercel.app/" target="_blank">https://css-visualizer-flame.vercel.app/</a>
 
 Select from a variety of styled buttons and view and edit their CSS, SCSS or Tailwind. This enables you to convert styling code between them, adjust various aspects of the buttons with sliders, and then copy and paste the relevant styling code.
 
