@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import { Card, Title } from "@mantine/core";
+import { SCSSCompiler } from "@/utils/scssCompiler";
 
 interface CodePreviewProps {
   htmlCode: string;
@@ -9,9 +10,10 @@ interface CodePreviewProps {
   scssCode?: string;
   tailwindCode?: string;
   activeTab: string;
+  scssError?: string | null;
 }
 
-export default function CodePreview({ htmlCode, cssCode, scssCode, tailwindCode, activeTab }: Readonly<CodePreviewProps>) {
+export default function CodePreview({ htmlCode, cssCode, scssCode, tailwindCode, activeTab, scssError }: Readonly<CodePreviewProps>) {
   const { previewHtml, previewCss } = useMemo(() => {
     let finalHtml = htmlCode;
     let finalCss: string;
@@ -37,9 +39,15 @@ export default function CodePreview({ htmlCode, cssCode, scssCode, tailwindCode,
       finalHtml = tailwindCode;
       finalCss = baseContainerCSS;
     } else if (activeTab === "scss" && scssCode) {
-      // Note: In a real application, you'd want to compile SCSS to CSS
-      // For this demo, we'll show the SCSS as-is with a note
-      finalCss = baseContainerCSS + scssCode;
+      // Compile SCSS to CSS for preview
+      const compiled = SCSSCompiler.compile(scssCode);
+      if (compiled.error) {
+        // If there's an error, use base CSS to still show the button
+        console.warn("SCSS compilation error in preview:", compiled.error);
+        finalCss = baseContainerCSS + cssCode; // Fallback to base CSS
+      } else {
+        finalCss = baseContainerCSS + compiled.css;
+      }
     } else {
       // For HTML and CSS tabs, combine base styles with user CSS
       finalCss = baseContainerCSS + cssCode;
@@ -64,9 +72,16 @@ export default function CodePreview({ htmlCode, cssCode, scssCode, tailwindCode,
         <div className="preview-container w-full h-96" dangerouslySetInnerHTML={{ __html: previewHtml }} />
       </div>
       {activeTab === "scss" && (
-        <div className="mt-2 p-2 bg-yellow-50 border border-yellow-200 rounded text-sm text-yellow-800">
-          <strong>Note:</strong> SCSS preview shows raw SCSS code. In a production environment, this would be compiled to CSS.
-        </div>
+        <>
+          {scssError && (
+            <div className="mt-2 p-3 bg-red-50 border border-red-200 rounded-lg">
+              <div className="flex items-center">
+                <span className="text-red-600 font-medium mr-2">⚠️ SCSS compilation error:</span>
+                <span className="text-red-700 text-sm">{scssError}</span>
+              </div>
+            </div>
+          )}
+        </>
       )}
       {activeTab === "tailwind" && (
         <div className="mt-2 p-2 bg-blue-50 border border-blue-200 rounded text-sm text-blue-800">

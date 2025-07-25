@@ -9,9 +9,10 @@ interface CodeEditorSectionProps {
   activeTab: string;
   onCodeChange: (tabId: string, value: string) => void;
   onTabChange: (tabId: string) => void;
+  scssError?: string | null;
 }
 
-export default function CodeEditorSection({ codeValues, activeTab, onCodeChange, onTabChange }: Readonly<CodeEditorSectionProps>) {
+export default function CodeEditorSection({ codeValues, activeTab, onCodeChange, onTabChange, scssError }: Readonly<CodeEditorSectionProps>) {
   return (
     <Card shadow="md" padding="xl" radius="md" className="mt-12">
       <Title order={2} className="mb-6 text-center">
@@ -35,6 +36,7 @@ export default function CodeEditorSection({ codeValues, activeTab, onCodeChange,
             scssCode={codeValues.scss}
             tailwindCode={codeValues.tailwind}
             activeTab={activeTab}
+            scssError={scssError}
           />
         </div>
       </div>

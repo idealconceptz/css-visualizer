@@ -1,9 +1,10 @@
 "use client";
 
 import { Container, Stack } from "@mantine/core";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { HeroSection, StyleSelectorModal, ElementPropertiesPanel, CodeEditorSection } from "@/components";
 import { ElementCSSManipulator } from "@/utils/elementCSSManipulator";
+import { SCSSCompiler } from "@/utils/scssCompiler";
 import { buttonStyles } from "@/data/buttonStyles";
 import { defaultElementProperties, defaultCodeValues, ElementProperties, CodeValues } from "@/data/defaultValues";
 
@@ -12,13 +13,55 @@ export default function Home() {
   const [currentStyleIndex, setCurrentStyleIndex] = useState(0);
   const [elementProps, setElementProps] = useState<ElementProperties>(defaultElementProperties);
   const [codeValues, setCodeValues] = useState<CodeValues>(defaultCodeValues);
+  const [scssError, setScssError] = useState<string | null>(null);
+
+  // Compute effective CSS (prioritize compiled SCSS when SCSS tab is active)
+  const effectiveCodeValues = useMemo(() => {
+    if (activeTab === "scss" && codeValues.scss) {
+      const compiled = SCSSCompiler.compile(codeValues.scss);
+      if (!compiled.error) {
+        setScssError(null); // Clear error on successful compilation
+        return {
+          ...codeValues,
+          css: compiled.css, // Use compiled SCSS as CSS
+        };
+      } else {
+        setScssError(compiled.error); // Store error for display
+      }
+    } else {
+      setScssError(null); // Clear error when not on SCSS tab
+    }
+    return codeValues;
+  }, [codeValues, activeTab]);
 
   const handleCodeChange = (tabId: string, value: string) => {
     console.log(`Code changed in tab: ${tabId}`);
-    setCodeValues((prev) => ({
-      ...prev,
-      [tabId]: value,
-    }));
+
+    // If SCSS is changed, automatically compile to CSS
+    if (tabId === "scss") {
+      const compiled = SCSSCompiler.compile(value);
+      if (!compiled.error) {
+        setScssError(null); // Clear error on successful compilation
+        setCodeValues((prev) => ({
+          ...prev,
+          [tabId]: value,
+          css: compiled.css, // Auto-update CSS tab with compiled SCSS
+        }));
+      } else {
+        setScssError(compiled.error); // Store error for display
+        setCodeValues((prev) => ({
+          ...prev,
+          [tabId]: value,
+          // Keep previous CSS if compilation fails
+        }));
+      }
+    } else {
+      setScssError(null); // Clear error when not editing SCSS
+      setCodeValues((prev) => ({
+        ...prev,
+        [tabId]: value,
+      }));
+    }
   };
 
   const handleTabChange = (tabId: string) => {
@@ -75,7 +118,13 @@ export default function Home() {
           <ElementPropertiesPanel elementProps={elementProps} onPropertyChange={updateElementProperty} />
 
           {/* Code Editor and Preview Section */}
-          <CodeEditorSection codeValues={codeValues} activeTab={activeTab} onCodeChange={handleCodeChange} onTabChange={handleTabChange} />
+          <CodeEditorSection
+            codeValues={effectiveCodeValues}
+            activeTab={activeTab}
+            onCodeChange={handleCodeChange}
+            onTabChange={handleTabChange}
+            scssError={scssError}
+          />
         </Stack>
       </Container>
     </div>
