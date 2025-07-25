@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { HeroSection, StyleSelectorModal, ElementPropertiesPanel, CodeEditorSection } from "@/components";
 import { ElementCSSManipulator } from "@/utils/elementCSSManipulator";
 import { SCSSCompiler } from "@/utils/scssCompiler";
+import { TailwindToCSS } from "@/utils/tailwindToCSS";
 import { buttonStyles } from "@/data/buttonStyles";
 import { defaultElementProperties, defaultCodeValues, ElementProperties, CodeValues } from "@/data/defaultValues";
 
@@ -66,6 +67,27 @@ export default function Home() {
         [tabId]: value,
         scss: value, // Auto-update SCSS tab with CSS content
       }));
+    } else if (tabId === "tailwind") {
+      // If Tailwind is changed, convert to CSS and SCSS
+      try {
+        const convertedCSS = TailwindToCSS.convertTailwindToCSS(value);
+        const convertedSCSS = TailwindToCSS.convertCSSToSCSS(convertedCSS);
+
+        setScssError(null); // Clear any errors
+        setCodeValues((prev) => ({
+          ...prev,
+          [tabId]: value,
+          css: convertedCSS, // Auto-update CSS tab with converted Tailwind
+          scss: convertedSCSS, // Auto-update SCSS tab with converted CSS
+        }));
+      } catch (error) {
+        // If conversion fails, just update the Tailwind tab
+        console.warn("Tailwind conversion error:", error);
+        setCodeValues((prev) => ({
+          ...prev,
+          [tabId]: value,
+        }));
+      }
     } else {
       setScssError(null); // Clear error when not editing SCSS
       setCodeValues((prev) => ({

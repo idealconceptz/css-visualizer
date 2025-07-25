@@ -21,7 +21,7 @@ export const defaultElementProperties: ElementProperties = {
 
 export const defaultCodeValues: CodeValues = {
   html: `<button class="element">
-Click Me!
+Hover Over Me!
 </button>`,
   css: `.element {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -76,6 +76,6 @@ $border-radius: 12px;
   }
 }`,
   tailwind: `<button class="bg-gradient-to-br from-blue-500 to-purple-600 text-white px-8 py-4 rounded-xl font-bold shadow-lg transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl active:translate-y-0 active:shadow-lg">
-    Click Me!
+    Hover Over Me!
   </button>`,
 };

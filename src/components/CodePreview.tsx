@@ -65,6 +65,11 @@ export default function CodePreview({ htmlCode, cssCode, scssCode, tailwindCode,
         {/* Preview content container */}
         <div className="preview-container w-full h-96" dangerouslySetInnerHTML={{ __html: previewHtml }} />
       </div>
+      {activeTab === "css" && (
+        <div className="mt-2 p-2 bg-blue-50 border border-blue-200 rounded text-sm text-blue-800">
+          <strong>Note:</strong> You can edit the CSS code directly in the code editor. The preview will update automatically.
+        </div>
+      )}
       {activeTab === "scss" && (
         <>
           {scssError ? (
