@@ -1,7 +1,7 @@
 "use client";
 
 import { Container, Stack } from "@mantine/core";
-import { useState, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { HeroSection, StyleSelectorModal, ElementPropertiesPanel, CodeEditorSection } from "@/components";
 import { ElementCSSManipulator } from "@/utils/elementCSSManipulator";
 import { SCSSCompiler } from "@/utils/scssCompiler";
@@ -15,24 +15,27 @@ export default function Home() {
   const [codeValues, setCodeValues] = useState<CodeValues>(defaultCodeValues);
   const [scssError, setScssError] = useState<string | null>(null);
 
-  // Compute effective CSS (prioritize compiled SCSS when SCSS tab is active)
-  const effectiveCodeValues = useMemo(() => {
+  // Compute effective CSS (React Compiler will optimize this automatically)
+  let effectiveCodeValues = codeValues;
+  if (activeTab === "scss" && codeValues.scss) {
+    const compiled = SCSSCompiler.compile(codeValues.scss);
+    if (!compiled.error) {
+      effectiveCodeValues = {
+        ...codeValues,
+        css: compiled.css, // Use compiled SCSS as CSS
+      };
+    }
+  }
+
+  // Handle SCSS errors in useEffect
+  useEffect(() => {
     if (activeTab === "scss" && codeValues.scss) {
       const compiled = SCSSCompiler.compile(codeValues.scss);
-      if (!compiled.error) {
-        setScssError(null); // Clear error on successful compilation
-        return {
-          ...codeValues,
-          css: compiled.css, // Use compiled SCSS as CSS
-        };
-      } else {
-        setScssError(compiled.error); // Store error for display
-      }
+      setScssError(compiled.error || null);
     } else {
-      setScssError(null); // Clear error when not on SCSS tab
+      setScssError(null);
     }
-    return codeValues;
-  }, [codeValues, activeTab]);
+  }, [activeTab, codeValues.scss]);
 
   const handleCodeChange = (tabId: string, value: string) => {
     console.log(`Code changed in tab: ${tabId}`);

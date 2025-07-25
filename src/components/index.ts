@@ -8,3 +8,4 @@ export { default as ElementPropertiesPanel } from "./ElementPropertiesPanel";
 export { default as CodeEditorSection } from "./CodeEditorSection";
 export { default as HeroSection } from "./HeroSection";
 export { default as ButtonPropertiesPanel } from "./ButtonPropertiesPanel";
+export { default as ReactCompilerTest } from "./ReactCompilerTest";

@@ -1,6 +1,5 @@
 "use client";
 
-import { useMemo } from "react";
 import { Card, Title } from "@mantine/core";
 import { SCSSCompiler } from "@/utils/scssCompiler";
 
@@ -14,50 +13,47 @@ interface CodePreviewProps {
 }
 
 export default function CodePreview({ htmlCode, cssCode, scssCode, tailwindCode, activeTab, scssError }: Readonly<CodePreviewProps>) {
-  const { previewHtml, previewCss } = useMemo(() => {
-    let finalHtml = htmlCode;
-    let finalCss: string;
+  // React Compiler will automatically optimize this computation
+  let finalHtml = htmlCode;
+  let finalCss: string;
 
-    // Base container styles for the preview
-    const baseContainerCSS = `
-      .preview-container {
-        max-width: 100%;
-        padding: 2rem;
-        font-family: 'Arial', sans-serif;
-        text-align: center;
-        background: white;
-        min-height: 200px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-    `;
-
-    // Use appropriate code based on active tab
-    if (activeTab === "tailwind" && tailwindCode) {
-      // For Tailwind, extract the HTML content and apply Tailwind classes
-      finalHtml = tailwindCode;
-      finalCss = baseContainerCSS;
-    } else if (activeTab === "scss" && scssCode) {
-      // Compile SCSS to CSS for preview
-      const compiled = SCSSCompiler.compile(scssCode);
-      if (compiled.error) {
-        // If there's an error, use base CSS to still show the button
-        console.warn("SCSS compilation error in preview:", compiled.error);
-        finalCss = baseContainerCSS + cssCode; // Fallback to base CSS
-      } else {
-        finalCss = baseContainerCSS + compiled.css;
-      }
-    } else {
-      // For HTML and CSS tabs, combine base styles with user CSS
-      finalCss = baseContainerCSS + cssCode;
+  // Base container styles for the preview
+  const baseContainerCSS = `
+    .preview-container {
+      max-width: 100%;
+      padding: 2rem;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      background: white;
+      min-height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
+  `;
 
-    return {
-      previewHtml: finalHtml,
-      previewCss: finalCss,
-    };
-  }, [htmlCode, cssCode, scssCode, tailwindCode, activeTab]);
+  // Use appropriate code based on active tab
+  if (activeTab === "tailwind" && tailwindCode) {
+    // For Tailwind, extract the HTML content and apply Tailwind classes
+    finalHtml = tailwindCode;
+    finalCss = baseContainerCSS;
+  } else if (activeTab === "scss" && scssCode) {
+    // Compile SCSS to CSS for preview
+    const compiled = SCSSCompiler.compile(scssCode);
+    if (compiled.error) {
+      // If there's an error, use base CSS to still show the button
+      console.warn("SCSS compilation error in preview:", compiled.error);
+      finalCss = baseContainerCSS + cssCode; // Fallback to base CSS
+    } else {
+      finalCss = baseContainerCSS + compiled.css;
+    }
+  } else {
+    // For HTML and CSS tabs, combine base styles with user CSS
+    finalCss = baseContainerCSS + cssCode;
+  }
+
+  const previewHtml = finalHtml;
+  const previewCss = finalCss;
 
   return (
     <Card withBorder className="w-full h-full">

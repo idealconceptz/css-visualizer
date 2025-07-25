@@ -1,0 +1,6 @@
+{
+  "compilationMode": "annotation",
+  "runtimeModule": "react-compiler-runtime",
+  "sources": ["**/*.{js,jsx,ts,tsx}"],
+  "exclude": ["**/node_modules/**", "**/*.d.ts"]
+}
