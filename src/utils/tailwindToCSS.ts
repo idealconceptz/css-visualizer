@@ -306,4 +306,90 @@ export class TailwindToCSS {
     // In the future, this could be enhanced to use SCSS variables, nesting, etc.
     return css;
   }
+
+  /**
+   * Update Tailwind HTML with new element properties
+   */
+  static updateTailwindProperties(tailwindHtml: string, properties: { width?: number; height?: number; padding?: number; fontSize?: number }): string {
+    if (!tailwindHtml) return tailwindHtml;
+
+    let updatedHtml = tailwindHtml;
+
+    // Update width classes (using min-width approach like CSS)
+    if (properties.width !== undefined) {
+      // Remove existing width-related classes
+      updatedHtml = this.removeTailwindClasses(updatedHtml, /\b(w-\S+|min-w-\S+|max-w-\S+)\b/g);
+
+      // Add new min-width class using arbitrary value
+      const widthClass = `min-w-[${properties.width}px]`;
+      updatedHtml = this.addTailwindClass(updatedHtml, widthClass);
+    }
+
+    // Update height classes (using min-height approach like CSS)
+    if (properties.height !== undefined) {
+      // Remove existing height-related classes
+      updatedHtml = this.removeTailwindClasses(updatedHtml, /\b(h-\S+|min-h-\S+|max-h-\S+)\b/g);
+
+      // Add new min-height class using arbitrary value
+      const heightClass = `min-h-[${properties.height}px]`;
+      updatedHtml = this.addTailwindClass(updatedHtml, heightClass);
+    }
+
+    // Update padding classes
+    if (properties.padding !== undefined) {
+      // Remove existing padding classes
+      updatedHtml = this.removeTailwindClasses(updatedHtml, /\b(p-\S+|px-\S+|py-\S+|pt-\S+|pr-\S+|pb-\S+|pl-\S+)\b/g);
+
+      // Add new padding class using arbitrary value
+      const paddingClass = `p-[${properties.padding}px]`;
+      updatedHtml = this.addTailwindClass(updatedHtml, paddingClass);
+    }
+
+    // Update font size classes
+    if (properties.fontSize !== undefined) {
+      // Remove existing text size classes
+      updatedHtml = this.removeTailwindClasses(updatedHtml, /\b(text-(xs|sm|base|lg|xl|2xl|3xl|4xl|5xl|6xl|7xl|8xl|9xl)|\btext-\[\S+\])\b/g);
+
+      // Add new font size class using arbitrary value
+      const fontSizeClass = `text-[${properties.fontSize}px]`;
+      updatedHtml = this.addTailwindClass(updatedHtml, fontSizeClass);
+    }
+
+    // Clean up extra whitespace
+    updatedHtml = updatedHtml.replace(/\s+/g, " ").trim();
+
+    return updatedHtml;
+  }
+
+  /**
+   * Helper function to remove Tailwind classes that match a pattern
+   */
+  private static removeTailwindClasses(html: string, pattern: RegExp): string {
+    const classRegex = /class="([^"]*)"/;
+    const match = classRegex.exec(html);
+
+    if (match) {
+      const existingClasses = match[1];
+      const updatedClasses = existingClasses.replace(pattern, "").replace(/\s+/g, " ").trim();
+      return html.replace(classRegex, `class="${updatedClasses}"`);
+    }
+
+    return html;
+  }
+
+  /**
+   * Helper function to add a Tailwind class to the class attribute
+   */
+  private static addTailwindClass(html: string, newClass: string): string {
+    const classRegex = /class="([^"]*)"/;
+    const match = classRegex.exec(html);
+
+    if (match) {
+      const existingClasses = match[1].trim();
+      const updatedClasses = existingClasses ? `${existingClasses} ${newClass}` : newClass;
+      return html.replace(classRegex, `class="${updatedClasses}"`);
+    }
+
+    return html;
+  }
 }

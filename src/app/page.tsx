@@ -143,9 +143,20 @@ export default function Home() {
     // Update the CSS with the new property values using utility
     const updatedCSS = ElementCSSManipulator.updateElementProperties(buttonStyles[currentStyleIndex].css, newProps);
 
+    // Convert CSS to SCSS (basic conversion)
+    const updatedSCSS = TailwindToCSS.convertCSSToSCSS(updatedCSS);
+
+    // Update Tailwind if the current style has Tailwind code
+    let updatedTailwind = codeValues.tailwind;
+    if (buttonStyles[currentStyleIndex].tailwind) {
+      updatedTailwind = TailwindToCSS.updateTailwindProperties(buttonStyles[currentStyleIndex].tailwind || codeValues.tailwind, { [property]: value });
+    }
+
     setCodeValues((prev) => ({
       ...prev,
       css: updatedCSS,
+      scss: updatedSCSS,
+      tailwind: updatedTailwind,
     }));
   };
 
