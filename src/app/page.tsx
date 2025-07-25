@@ -55,6 +55,14 @@ export default function Home() {
           // Keep previous CSS if compilation fails
         }));
       }
+    } else if (tabId === "css") {
+      // If CSS is changed, automatically sync to SCSS tab
+      setScssError(null); // Clear any SCSS errors when editing CSS directly
+      setCodeValues((prev) => ({
+        ...prev,
+        [tabId]: value,
+        scss: value, // Auto-update SCSS tab with CSS content
+      }));
     } else {
       setScssError(null); // Clear error when not editing SCSS
       setCodeValues((prev) => ({
