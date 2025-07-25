@@ -1,6 +1,8 @@
 // Utility to convert Tailwind classes to CSS
 // This helps keep all three tabs (CSS, SCSS, Tailwind) in sync
 
+import { twi } from "tw-to-css";
+
 export class TailwindToCSS {
   private static readonly tailwindToCssMap: Record<string, string> = {
     // Background colors
@@ -220,120 +222,62 @@ export class TailwindToCSS {
   }
 
   /**
-   * Convert Tailwind classes to CSS
+   * Convert Tailwind classes to CSS using tw-to-css package
    */
   static convertClassesToCSS(classes: string[]): string {
-    const cssRules: string[] = [];
+    try {
+      // Join classes into a single string
+      const classString = classes.join(" ");
+
+      // Use tw-to-css to convert to CSS with proper formatting
+      const cssOutput = twi(classString, {
+        minify: false,
+        merge: false,
+      });
+
+      // Transform the output to match our expected format (.element selector)
+      return this.formatCSSOutput(cssOutput);
+    } catch (error) {
+      console.error("Error converting Tailwind classes to CSS:", error);
+      // Fallback to basic CSS structure
+      return ".element {\n  /* Error converting Tailwind classes */\n}";
+    }
+  }
+
+  /**
+   * Format CSS output from tw-to-css to match our expected structure
+   */
+  private static formatCSSOutput(cssOutput: string): string {
+    // Split by CSS rules (blocks that end with })
+    const rules = cssOutput.split("}").filter((rule) => rule.trim());
+
+    const baseRules: string[] = [];
     const hoverRules: string[] = [];
     const activeRules: string[] = [];
-    const transformRules: string[] = [];
-    const hoverTransformRules: string[] = [];
-    const activeTransformRules: string[] = [];
 
-    for (const className of classes) {
-      this.processClassName(className, cssRules, hoverRules, activeRules, transformRules, hoverTransformRules, activeTransformRules);
-    }
+    for (const rule of rules) {
+      const trimmedRule = rule.trim();
+      if (!trimmedRule) continue;
 
-    // Combine transform rules
-    if (transformRules.length > 0) {
-      cssRules.push(`transform: ${transformRules.join(" ")}`);
-    }
-    if (hoverTransformRules.length > 0) {
-      hoverRules.push(`transform: ${hoverTransformRules.join(" ")}`);
-    }
-    if (activeTransformRules.length > 0) {
-      activeRules.push(`transform: ${activeTransformRules.join(" ")}`);
-    }
+      // Extract the CSS properties from the rule
+      const regex = /\{([^}]+)/;
+      const match = regex.exec(trimmedRule);
+      if (!match) continue;
 
-    return this.buildCSSOutput(cssRules, hoverRules, activeRules);
-  }
+      const properties = match[1].trim();
 
-  /**
-   * Process a single class name and add to appropriate rule array
-   */
-  private static processClassName(
-    className: string,
-    cssRules: string[],
-    hoverRules: string[],
-    activeRules: string[],
-    transformRules: string[],
-    hoverTransformRules: string[],
-    activeTransformRules: string[]
-  ): void {
-    if (className.startsWith("hover:")) {
-      const baseClass = className.replace("hover:", "");
-      const transformRule = this.getTransformRule(baseClass);
-      if (transformRule) {
-        hoverTransformRules.push(transformRule);
+      // Check if this is a hover or active rule based on the selector
+      if (trimmedRule.includes(":hover")) {
+        hoverRules.push(properties);
+      } else if (trimmedRule.includes(":active")) {
+        activeRules.push(properties);
       } else {
-        const rule = this.getClassRule(baseClass);
-        if (rule) hoverRules.push(rule);
-      }
-    } else if (className.startsWith("active:")) {
-      const baseClass = className.replace("active:", "");
-      const transformRule = this.getTransformRule(baseClass);
-      if (transformRule) {
-        activeTransformRules.push(transformRule);
-      } else {
-        const rule = this.getClassRule(baseClass);
-        if (rule) activeRules.push(rule);
-      }
-    } else {
-      const transformRule = this.getTransformRule(className);
-      if (transformRule) {
-        transformRules.push(transformRule);
-      } else {
-        const rule = this.getClassRule(className);
-        if (rule) cssRules.push(rule);
+        baseRules.push(properties);
       }
     }
-  }
 
-  /**
-   * Get transform rule for a class name
-   */
-  private static getTransformRule(className: string): string {
-    if (className.includes("scale-")) {
-      if (className === "scale-105") return "scale(1.05)";
-      if (className === "scale-110") return "scale(1.1)";
-      if (className === "scale-[0.98]") return "scale(0.98)";
-      if (className === "scale-[1.05]") return "scale(1.05)";
-    } else if (className.includes("translate-")) {
-      if (className === "-translate-y-0.5") return "translateY(-0.125rem)";
-      if (className === "-translate-y-1") return "translateY(-0.25rem)";
-      if (className === "translate-y-0") return "translateY(0)";
-      if (className === "translate-y-0.5") return "translateY(0.125rem)";
-      if (className === "-translate-x-0.5") return "translateX(-0.125rem)";
-      if (className === "translate-x-0.5") return "translateX(0.125rem)";
-      if (className === "translate-x-1") return "translateX(0.25rem)";
-      if (className === "translate-y-1") return "translateY(0.25rem)";
-    }
-    return "";
-  }
-
-  /**
-   * Get CSS rule for a class name
-   */
-  private static getClassRule(className: string): string {
-    const mapped = this.tailwindToCssMap[className];
-    if (mapped) return mapped;
-
-    const special = this.handleSpecialClasses(className);
-    if (special) return special;
-
-    // Log unmapped classes in development
-    if (process.env.NODE_ENV === "development") {
-      console.warn(`Unmapped Tailwind class: ${className}`);
-    }
-
-    return "";
-  }
-
-  /**
-   * Build final CSS output
-   */
-  private static buildCSSOutput(cssRules: string[], hoverRules: string[], activeRules: string[]): string {
-    let css = `.element {\n  ${cssRules.join(";\n  ")}${cssRules.length > 0 ? ";" : ""}\n}`;
+    // Build the final CSS output
+    let css = `.element {\n  ${baseRules.join(";\n  ")}${baseRules.length > 0 ? ";" : ""}\n}`;
 
     if (hoverRules.length > 0) {
       css += `\n\n.element:hover {\n  ${hoverRules.join(";\n  ")};\n}`;
@@ -344,128 +288,6 @@ export class TailwindToCSS {
     }
 
     return css;
-  }
-
-  /**
-   * Handle special classes not in the basic map
-   */
-  private static handleSpecialClasses(className: string): string {
-    if (className.startsWith("bg-gradient-")) {
-      return this.handleGradients(className);
-    } else if (className.includes("[") && className.includes("]")) {
-      return this.handleArbitraryValues(className);
-    } else if (className.includes("scale-") || className.includes("translate-")) {
-      return ""; // Handled by getTransformRule
-    } else if (className.startsWith("animate-")) {
-      return this.handleAnimations(className);
-    } else if (className.includes("/")) {
-      return this.handleOpacity(className);
-    }
-    return "";
-  }
-
-  /**
-   * Handle animation classes
-   */
-  private static handleAnimations(className: string): string {
-    if (className.includes("animate-[")) {
-      const match = /animate-\[([^\]]+)\]/.exec(className);
-      if (match) {
-        const [animName, duration, easing] = match[1].split("_");
-        return `animation: ${animName} ${duration || "1s"} ${easing || "ease"}`;
-      }
-    }
-    return "";
-  }
-
-  /**
-   * Handle opacity variants like bg-white/20
-   */
-  private static handleOpacity(className: string): string {
-    const parts = className.split("/");
-    if (parts.length !== 2) return "";
-
-    const [base, opacity] = parts;
-    const opacityValue = parseInt(opacity) / 100;
-
-    if (base.startsWith("bg-")) {
-      const color = base.replace("bg-", "");
-      if (color === "white") return `background: rgba(255, 255, 255, ${opacityValue})`;
-      if (color === "black") return `background: rgba(0, 0, 0, ${opacityValue})`;
-    } else if (base.startsWith("border-")) {
-      const color = base.replace("border-", "");
-      if (color === "white") return `border-color: rgba(255, 255, 255, ${opacityValue})`;
-      if (color === "black") return `border-color: rgba(0, 0, 0, ${opacityValue})`;
-    }
-
-    return "";
-  }
-
-  /**
-   * Handle gradient classes
-   */
-  private static handleGradients(className: string): string {
-    if (className.includes("bg-gradient-to-r")) {
-      return "background: linear-gradient(to right, var(--tw-gradient-stops))";
-    } else if (className.includes("bg-gradient-to-br")) {
-      return "background: linear-gradient(to bottom right, var(--tw-gradient-stops))";
-    }
-    return "";
-  }
-
-  /**
-   * Handle arbitrary values like rounded-[25px], shadow-[0_0_20px_rgba(0,255,65,0.3)]
-   */
-  private static handleArbitraryValues(className: string): string {
-    const arbitraryRegex = /^([^[]+)\[([^\]]+)\]$/;
-    const match = arbitraryRegex.exec(className);
-    if (!match) return "";
-
-    const [, property, value] = match;
-    const cleanValue = value.replace(/_/g, " ");
-
-    switch (property) {
-      case "rounded":
-        return `border-radius: ${cleanValue}`;
-      case "shadow":
-        return `box-shadow: ${cleanValue}`;
-      case "bg":
-        if (cleanValue.startsWith("radial-gradient") || cleanValue.startsWith("linear-gradient")) {
-          return `background: ${cleanValue}`;
-        }
-        return `background: ${cleanValue}`;
-      case "text":
-        // Handle both font-size and color
-        if (cleanValue.startsWith("#") || cleanValue.startsWith("rgb") || cleanValue.startsWith("rgba")) {
-          return `color: ${cleanValue}`;
-        }
-        return `font-size: ${cleanValue}`;
-      case "border":
-        if (cleanValue.includes("px")) {
-          return `border-width: ${cleanValue}`;
-        }
-        return `border-color: ${cleanValue}`;
-      case "duration":
-        return `transition-duration: ${cleanValue}`;
-      case "py":
-        return `padding-top: ${cleanValue}; padding-bottom: ${cleanValue}`;
-      case "px":
-        return `padding-left: ${cleanValue}; padding-right: ${cleanValue}`;
-      case "tracking":
-        return `letter-spacing: ${cleanValue}`;
-      case "ease":
-        return `transition-timing-function: ${cleanValue}`;
-      case "text-shadow":
-        return `text-shadow: ${cleanValue}`;
-      case "scale":
-        return `transform: scale(${cleanValue})`;
-      case "translate-x":
-        return `transform: translateX(${cleanValue})`;
-      case "translate-y":
-        return `transform: translateY(${cleanValue})`;
-      default:
-        return "";
-    }
   }
 
   /**
