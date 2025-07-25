@@ -31,18 +31,20 @@ export default function Home() {
 
     // Extract element properties from the selected style
     const extractedProps = ElementCSSManipulator.extractElementProperties(selectedStyle.css);
-    // Only merge the properties we actually want to control (width, height, padding)
-    // Keep the extracted fontSize if available, otherwise use default
+    // Only merge the properties we actually want to control (width, height, padding, fontSize)
+    // Keep the extracted values if they're reasonable, otherwise use defaults
     const mergedProps = {
       ...defaultElementProperties,
       ...extractedProps,
       // If fontSize was extracted but seems wrong (like 1px), use default
       fontSize: extractedProps.fontSize && extractedProps.fontSize > 8 ? extractedProps.fontSize : defaultElementProperties.fontSize,
+      // If padding was extracted but seems wrong (like 1px), use default
+      padding: extractedProps.padding && extractedProps.padding > 4 ? extractedProps.padding : defaultElementProperties.padding,
     };
     setElementProps(mergedProps);
 
-    // Update CSS preserving the original font-size from the style
-    const updatedCSS = ElementCSSManipulator.updateElementProperties(selectedStyle.css, mergedProps, ".element", true);
+    // Update CSS preserving the original font-size and padding from the style
+    const updatedCSS = ElementCSSManipulator.updateElementProperties(selectedStyle.css, mergedProps, ".element", true, true);
     setCodeValues((prev) => ({ ...prev, css: updatedCSS }));
   };
 

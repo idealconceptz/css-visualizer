@@ -12,17 +12,27 @@ export interface ElementProperties {
  */
 export class ElementCSSManipulator {
   /**
-   * Update element properties in CSS string, preserving original font-size unless explicitly changed
+   * Update element properties in CSS string, preserving original font-size and padding unless explicitly changed
    */
-  static updateElementProperties(cssString: string, properties: ElementProperties, selector = ".element", preserveOriginalFontSize = false): string {
+  static updateElementProperties(
+    cssString: string,
+    properties: ElementProperties,
+    selector = ".element",
+    preserveOriginalFontSize = false,
+    preserveOriginalPadding = false
+  ): string {
     // First, remove existing width/height related properties
     let updatedCSS = SimpleCSSParser.removeProperties(cssString, selector, ["width", "min-width", "max-width", "height", "min-height", "max-height"]);
 
     const updates: Record<string, string> = {
       "min-width": `${properties.width}px`,
       "min-height": `${properties.height}px`,
-      padding: `${properties.padding}px`,
     };
+
+    // Only update padding if we're not preserving the original
+    if (!preserveOriginalPadding) {
+      updates["padding"] = `${properties.padding}px`;
+    }
 
     // Only update font-size if we're not preserving the original
     if (!preserveOriginalFontSize) {
@@ -62,9 +72,28 @@ export class ElementCSSManipulator {
           properties.height = numericValue;
           break;
         case "padding": {
-          // Handle shorthand padding
-          const paddingValues = prop.value.split(" ");
-          properties.padding = parseFloat(paddingValues[0]);
+          // Handle shorthand padding with different units
+          const paddingValues = prop.value.trim().split(/\s+/);
+          const firstPaddingValue = paddingValues[0];
+
+          if (firstPaddingValue.includes("rem")) {
+            // Convert rem to px (assuming 1rem = 16px)
+            const remValue = parseFloat(firstPaddingValue);
+            properties.padding = remValue * 16;
+          } else if (firstPaddingValue.includes("em")) {
+            // Convert em to px (assuming 1em = 16px)
+            const emValue = parseFloat(firstPaddingValue);
+            properties.padding = emValue * 16;
+          } else if (firstPaddingValue.includes("px")) {
+            properties.padding = parseFloat(firstPaddingValue);
+          } else {
+            // Fallback for unitless values
+            const numericValue = parseFloat(firstPaddingValue);
+            if (!isNaN(numericValue)) {
+              // If it's a reasonable padding number, assume px, otherwise assume rem
+              properties.padding = numericValue > 10 ? numericValue : numericValue * 16;
+            }
+          }
           break;
         }
         case "font-size": {
