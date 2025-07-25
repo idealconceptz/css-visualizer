@@ -2,6 +2,10 @@
 
 A modern CSS visualization tool built with the latest web technologies for an exceptional development experience.
 
+Demo at https://css-visualizer-flame.vercel.app/
+
+Select from a variety of styled buttons and view and edit their CSS, SCSS or Tailwind. This enables you to convert styling code between them, adjust various aspects of the buttons with sliders, and then copy and paste the relevant styling code.
+
 ## 🚀 Tech Stack
 
 - **[Next.js 15](https://nextjs.org)** - React framework with App Router and Turbopack

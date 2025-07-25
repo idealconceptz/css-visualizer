@@ -67,19 +67,23 @@ export default function CodePreview({ htmlCode, cssCode, scssCode, tailwindCode,
       </div>
       {activeTab === "scss" && (
         <>
-          {scssError && (
+          {scssError ? (
             <div className="mt-2 p-3 bg-red-50 border border-red-200 rounded-lg">
               <div className="flex items-center">
                 <span className="text-red-600 font-medium mr-2">⚠️ SCSS compilation error:</span>
                 <span className="text-red-700 text-sm">{scssError}</span>
               </div>
             </div>
+          ) : (
+            <div className="mt-2 p-2 bg-blue-50 border border-blue-200 rounded text-sm text-blue-800">
+              <strong>Note:</strong> You can edit the SCSS code directly in the code editor. The preview will update automatically.
+            </div>
           )}
         </>
       )}
       {activeTab === "tailwind" && (
         <div className="mt-2 p-2 bg-blue-50 border border-blue-200 rounded text-sm text-blue-800">
-          <strong>Note:</strong> Tailwind classes are simulated. In a production environment, Tailwind CSS would be compiled.
+          <strong>Note:</strong> You can edit the Tailwind classes directly in the code editor. The preview will update automatically.
         </div>
       )}
     </Card>

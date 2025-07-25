@@ -2,6 +2,7 @@ export interface ElementStyle {
   name: string;
   css: string;
   scss?: string; // Optional for now, will add SCSS versions progressively
+  tailwind?: string; // Tailwind CSS equivalent
 }
 
 export const buttonStyles: ElementStyle[] = [
@@ -58,6 +59,20 @@ $font-size: 18px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   }
 }`,
+    tailwind: `<button class="
+  bg-gradient-to-br from-indigo-500 to-purple-600
+  text-white
+  px-8 py-4
+  rounded-xl
+  text-lg font-bold
+  cursor-pointer
+  shadow-lg
+  transition-all duration-300 ease-in-out
+  hover:-translate-y-0.5 hover:shadow-xl
+  active:translate-y-0 active:shadow-md
+">
+  Button Text
+</button>`,
   },
   {
     name: "Neon Glow",
@@ -111,6 +126,22 @@ $font-size: 18px;
     color: $background-color;
   }
 }`,
+    tailwind: `<button class="
+  bg-black
+  text-green-400
+  px-8 py-4
+  border-2 border-green-400
+  rounded-lg
+  text-lg font-bold
+  cursor-pointer
+  shadow-[0_0_20px_rgba(0,255,65,0.3)]
+  transition-all duration-300 ease-in-out
+  hover:shadow-[0_0_30px_rgba(0,255,65,0.8)]
+  hover:[text-shadow:0_0_10px_#00ff41]
+  active:bg-green-400 active:text-black
+">
+  Button Text
+</button>`,
   },
   {
     name: "Glass Morphism",
@@ -165,6 +196,22 @@ $font-size: 1.1rem;
     transform: translateY(0);
   }
 }`,
+    tailwind: `<button class="
+  bg-white/20
+  text-gray-700
+  px-8 py-4
+  border border-white/30
+  rounded-2xl
+  text-lg font-bold
+  cursor-pointer
+  backdrop-blur-sm
+  shadow-[0_8px_32px_rgba(31,38,135,0.37)]
+  transition-all duration-300 ease-in-out
+  hover:bg-white/30 hover:-translate-y-0.5
+  active:translate-y-0
+">
+  Button Text
+</button>`,
   },
   {
     name: "Retro Gaming",
@@ -225,6 +272,26 @@ $font-size: 1.1rem;
     box-shadow: 2px 2px 0 $border-color;
   }
 }`,
+    tailwind: `<button class="
+  bg-red-400
+  text-white
+  px-8 py-4
+  border-4 border-gray-800
+  rounded-none
+  text-lg font-bold
+  cursor-pointer
+  font-mono
+  uppercase
+  shadow-[4px_4px_0_#333]
+  transition-all duration-100 ease-in-out
+  hover:bg-red-500
+  hover:-translate-x-0.5 hover:-translate-y-0.5
+  hover:shadow-[6px_6px_0_#333]
+  active:translate-x-0.5 active:translate-y-0.5
+  active:shadow-[2px_2px_0_#333]
+">
+  Button Text
+</button>`,
   },
   {
     name: "Minimalist",
@@ -278,6 +345,20 @@ $font-size: 1rem;
     background: $active-bg;
   }
 }`,
+    tailwind: `<button class="
+  bg-white
+  text-gray-700
+  px-8 py-4
+  border border-gray-300
+  rounded
+  text-base font-medium
+  cursor-pointer
+  transition-all duration-200 ease-in-out
+  hover:border-gray-700 hover:bg-gray-50
+  active:bg-gray-100
+">
+  Button Text
+</button>`,
   },
   {
     name: "Neumorphism",
@@ -329,6 +410,21 @@ $font-size: 1.1rem;
     box-shadow: inset 5px 5px 10px $shadow-dark, inset -5px -5px 10px $shadow-light;
   }
 }`,
+    tailwind: `<button class="
+  bg-gray-200
+  text-gray-700
+  px-8 py-4
+  border-none
+  rounded-[20px]
+  text-lg font-bold
+  cursor-pointer
+  shadow-[9px_9px_16px_#a3b1c6,_-9px_-9px_16px_#ffffff]
+  transition-all duration-300 ease-in-out
+  hover:shadow-[inset_9px_9px_16px_#a3b1c6,_inset_-9px_-9px_16px_#ffffff]
+  active:shadow-[inset_5px_5px_10px_#a3b1c6,_inset_-5px_-5px_10px_#ffffff]
+">
+  Button Text
+</button>`,
   },
   {
     name: "Fire Gradient",
@@ -383,6 +479,23 @@ $font-size: 1.1rem;
     transform: scale(0.98);
   }
 }`,
+    tailwind: `<button class="
+  bg-gradient-to-br from-red-300 to-pink-200
+  text-red-600
+  px-8 py-4
+  border-none
+  rounded-[25px]
+  text-lg font-bold
+  cursor-pointer
+  shadow-[0_4px_15px_rgba(255,154,158,0.4)]
+  transition-all duration-300 ease-in-out
+  hover:bg-gradient-to-br hover:from-red-500 hover:via-yellow-400 hover:to-pink-400
+  hover:scale-105
+  hover:shadow-[0_6px_20px_rgba(255,107,107,0.6)]
+  active:scale-[0.98]
+">
+  Button Text
+</button>`,
   },
   {
     name: "Cyberpunk",
@@ -441,6 +554,25 @@ $letter-spacing: 2px;
     background: linear-gradient(45deg, $secondary-color, $primary-color);
   }
 }`,
+    tailwind: `<button class="
+  bg-gradient-to-br from-pink-500 to-purple-600
+  text-white
+  px-8 py-4
+  border-2 border-pink-500
+  rounded-none
+  text-lg font-bold
+  cursor-pointer
+  uppercase
+  tracking-[2px]
+  relative
+  overflow-hidden
+  transition-all duration-300 ease-in-out
+  hover:shadow-[0_0_30px_#ff0080]
+  hover:border-purple-600
+  active:bg-gradient-to-br active:from-purple-600 active:to-pink-500
+">
+  Button Text
+</button>`,
   },
   {
     name: "Ocean Wave",
@@ -497,6 +629,24 @@ $font-size: 1.1rem;
     transform: translateY(-1px);
   }
 }`,
+    tailwind: `<button class="
+  bg-gradient-to-br from-indigo-500 to-purple-600
+  text-white
+  px-8 py-4
+  border-none
+  rounded-[50px]
+  text-lg font-bold
+  cursor-pointer
+  relative
+  overflow-hidden
+  transition-all duration-300 ease-in-out
+  hover:bg-gradient-to-br hover:from-blue-400 hover:to-cyan-300
+  hover:-translate-y-1
+  hover:shadow-[0_10px_25px_rgba(79,172,254,0.4)]
+  active:-translate-y-0.5
+">
+  Button Text
+</button>`,
   },
   {
     name: "Dark Mode",
@@ -554,6 +704,23 @@ $font-size: 1.1rem;
     transform: translateY(1px);
   }
 }`,
+    tailwind: `<button class="
+  bg-gray-900
+  text-white
+  px-8 py-4
+  border border-gray-700
+  rounded-lg
+  text-lg font-bold
+  cursor-pointer
+  transition-all duration-300 ease-in-out
+  hover:bg-gray-700
+  hover:border-gray-500
+  hover:shadow-[0_4px_12px_rgba(255,255,255,0.1)]
+  active:bg-black
+  active:translate-y-0.5
+">
+  Button Text
+</button>`,
   },
   {
     name: "Holographic",
@@ -619,6 +786,31 @@ $font-size: 1.1rem;
     transform: scale(0.98);
   }
 }`,
+    tailwind: `<button class="
+  bg-gradient-to-r from-red-400 via-blue-400 to-yellow-400
+  bg-[length:400%_400%]
+  text-white
+  px-8 py-4
+  border-none
+  rounded-[15px]
+  text-lg font-bold
+  cursor-pointer
+  animate-[holographic_3s_ease_infinite]
+  transition-all duration-300 ease-in-out
+  hover:scale-105
+  hover:shadow-[0_0_30px_rgba(255,255,255,0.5)]
+  active:scale-[0.98]
+">
+  Button Text
+</button>
+
+<style>
+@keyframes holographic {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+</style>`,
   },
   {
     name: "Brutalist",
@@ -683,6 +875,27 @@ $letter-spacing: 2px;
     box-shadow: 4px 4px 0 $border-color;
   }
 }`,
+    tailwind: `<button class="
+  bg-red-500
+  text-black
+  px-10 py-5
+  border-[6px] border-black
+  rounded-none
+  text-xl font-black
+  cursor-pointer
+  font-sans
+  uppercase
+  tracking-[2px]
+  shadow-[8px_8px_0_black]
+  transition-all duration-100 ease-in-out
+  hover:bg-red-400
+  hover:-translate-x-0.5 hover:-translate-y-0.5
+  hover:shadow-[10px_10px_0_black]
+  active:translate-x-1 active:translate-y-1
+  active:shadow-[4px_4px_0_black]
+">
+  Button Text
+</button>`,
   },
   {
     name: "Aurora Borealis",
@@ -752,6 +965,32 @@ $glow-hover: rgba(0, 201, 255, 0.6);
     transform: translateY(-1px);
   }
 }`,
+    tailwind: `<button class="
+  bg-gradient-to-r from-cyan-400 via-green-300 to-orange-200
+  bg-[length:300%_300%]
+  text-white
+  px-8 py-4
+  border-none
+  rounded-[25px]
+  text-lg font-bold
+  cursor-pointer
+  animate-[aurora_4s_ease_infinite]
+  shadow-[0_0_20px_rgba(0,201,255,0.3)]
+  transition-all duration-300 ease-in-out
+  hover:shadow-[0_0_30px_rgba(0,201,255,0.6)]
+  hover:-translate-y-1
+  active:-translate-y-0.5
+">
+  Button Text
+</button>
+
+<style>
+@keyframes aurora {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+</style>`,
   },
   {
     name: "Vintage Paper",
@@ -811,6 +1050,25 @@ $font-size: 1rem;
     transform: translateY(0);
   }
 }`,
+    tailwind: `<button class="
+  bg-stone-100
+  text-amber-800
+  px-8 py-4
+  border-2 border-tan-300
+  rounded-[3px]
+  text-base font-semibold
+  cursor-pointer
+  font-serif
+  shadow-[inset_0_0_20px_rgba(210,180,140,0.3),_2px_2px_4px_rgba(0,0,0,0.2)]
+  relative
+  transition-all duration-300 ease-in-out
+  hover:bg-stone-50
+  hover:-translate-y-0.5
+  hover:shadow-[inset_0_0_25px_rgba(210,180,140,0.4),_3px_3px_6px_rgba(0,0,0,0.3)]
+  active:translate-y-0
+">
+  Button Text
+</button>`,
   },
   {
     name: "Liquid Metal",
@@ -895,6 +1153,28 @@ $font-size: 1.1rem;
     transform: scale(0.98);
   }
 }`,
+    tailwind: `<button class="
+  bg-gradient-to-br from-indigo-500 to-purple-600
+  text-white
+  px-8 py-4
+  border-none
+  rounded-[50px]
+  text-lg font-bold
+  cursor-pointer
+  relative
+  overflow-hidden
+  transition-all duration-[400ms] ease-in-out
+  before:content-[''] before:absolute before:top-0 before:-left-full
+  before:w-full before:h-full
+  before:bg-gradient-to-r before:from-transparent before:via-white/30 before:to-transparent
+  before:transition-[left] before:duration-500 before:ease-in-out
+  hover:scale-105
+  hover:shadow-[0_8px_25px_rgba(102,126,234,0.4)]
+  hover:before:left-full
+  active:scale-[0.98]
+">
+  Button Text
+</button>`,
   },
   {
     name: "Glitch Effect",
@@ -970,6 +1250,35 @@ $font-size: 1.1rem;
     color: $bg-color;
   }
 }`,
+    tailwind: `<button class="
+  bg-black
+  text-green-500
+  px-8 py-4
+  border-2 border-green-500
+  rounded-none
+  text-lg font-bold
+  cursor-pointer
+  font-mono
+  uppercase
+  relative
+  transition-all duration-300 ease-in-out
+  hover:shadow-[0_0_20px_#00ff00]
+  hover:animate-[glitch_0.3s_ease]
+  active:bg-green-500 active:text-black
+">
+  Button Text
+</button>
+
+<style>
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+</style>`,
   },
   {
     name: "Soft Pastel",
@@ -1027,6 +1336,24 @@ $font-size: 1rem;
     transform: translateY(0);
   }
 }`,
+    tailwind: `<button class="
+  bg-gradient-to-br from-orange-100 to-pink-200
+  text-amber-800
+  px-8 py-4
+  border-none
+  rounded-[20px]
+  text-base font-semibold
+  cursor-pointer
+  shadow-[0_4px_15px_rgba(252,182,159,0.3)]
+  transition-all duration-300 ease-in-out
+  hover:bg-gradient-to-br hover:from-yellow-200 hover:to-blue-800
+  hover:text-white
+  hover:-translate-y-0.5
+  hover:shadow-[0_6px_20px_rgba(252,182,159,0.4)]
+  active:translate-y-0
+">
+  Button Text
+</button>`,
   },
   {
     name: "Neon Outline",
@@ -1098,6 +1425,24 @@ $border-width: 3px;
       inset 0 0 15px rgba(255, 7, 58, 0.3);
   }
 }`,
+    tailwind: `<button class="
+  bg-transparent
+  text-pink-600
+  px-8 py-4
+  border-[3px] border-pink-600
+  rounded-lg
+  text-lg font-bold
+  cursor-pointer
+  shadow-[0_0_10px_#ff073a,_inset_0_0_10px_transparent]
+  transition-all duration-300 ease-in-out
+  hover:bg-pink-600
+  hover:text-white
+  hover:shadow-[0_0_20px_#ff073a,_0_0_40px_#ff073a,_inset_0_0_20px_rgba(255,7,58,0.2)]
+  hover:[text-shadow:0_0_10px_white]
+  active:shadow-[0_0_15px_#ff073a,_inset_0_0_15px_rgba(255,7,58,0.3)]
+">
+  Button Text
+</button>`,
   },
   {
     name: "Material Design",
@@ -1164,6 +1509,28 @@ $material-ease: cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   }
 }`,
+    tailwind: `<button class="
+  bg-blue-500
+  text-white
+  px-8 py-4
+  border-none
+  rounded
+  text-base font-medium
+  cursor-pointer
+  uppercase
+  tracking-wide
+  shadow-md
+  transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]
+  relative
+  overflow-hidden
+  hover:bg-blue-700
+  hover:shadow-lg
+  hover:-translate-y-0.5
+  active:translate-y-0
+  active:shadow-md
+">
+  Button Text
+</button>`,
   },
   {
     name: "Retro Synthwave",
@@ -1226,6 +1593,26 @@ $glow-hover: rgba(255, 0, 110, 0.8);
     transform: scale(0.98);
   }
 }`,
+    tailwind: `<button class="
+  bg-gradient-to-r from-pink-600 via-purple-600 to-blue-500
+  text-white
+  px-8 py-4
+  border-2 border-pink-600
+  rounded-none
+  text-lg font-bold
+  cursor-pointer
+  font-mono
+  uppercase
+  tracking-[2px]
+  shadow-[0_0_20px_rgba(255,0,110,0.5)]
+  relative
+  transition-all duration-300 ease-in-out
+  hover:scale-105
+  hover:shadow-[0_0_30px_rgba(255,0,110,0.8)]
+  active:scale-[0.98]
+">
+  Button Text
+</button>`,
   },
   {
     name: "Wooden Button",
@@ -1303,6 +1690,25 @@ $font-size: 1.1rem;
       0 1px 3px rgba(0, 0, 0, 0.3);
   }
 }`,
+    tailwind: `<button class="
+  bg-gradient-to-br from-amber-800 via-yellow-600 to-amber-800
+  text-yellow-100
+  px-8 py-4
+  border-[3px] border-amber-900
+  rounded-lg
+  text-lg font-bold
+  cursor-pointer
+  text-shadow-md
+  shadow-[inset_0_1px_3px_rgba(218,165,32,0.7),_inset_0_-1px_3px_rgba(101,67,33,0.7),_0_3px_6px_rgba(0,0,0,0.3)]
+  transition-all duration-300 ease-in-out
+  hover:bg-gradient-to-br hover:from-orange-700 hover:via-yellow-300 hover:to-orange-700
+  hover:-translate-y-0.5
+  hover:shadow-[inset_0_1px_3px_rgba(240,230,140,0.7),_inset_0_-1px_3px_rgba(101,67,33,0.7),_0_4px_8px_rgba(0,0,0,0.4)]
+  active:translate-y-0.5
+  active:shadow-[inset_0_1px_3px_rgba(101,67,33,0.7),_inset_0_-1px_3px_rgba(218,165,32,0.7),_0_1px_3px_rgba(0,0,0,0.3)]
+">
+  Button Text
+</button>`,
   },
   {
     name: "Bubble Gum",
@@ -1360,6 +1766,24 @@ $shadow-hover: rgba(255, 154, 158, 0.6);
     transform: scale(1.05);
   }
 }`,
+    tailwind: `<button class="
+  bg-[radial-gradient(circle,_#ff9a9e_0%,_#fad0c4_100%)]
+  text-purple-800
+  px-8 py-4
+  border-none
+  rounded-[50px]
+  text-lg font-bold
+  cursor-pointer
+  shadow-[0_8px_20px_rgba(255,154,158,0.4)]
+  transition-all duration-300 ease-in-out
+  relative
+  overflow-hidden
+  hover:scale-110
+  hover:shadow-[0_12px_30px_rgba(255,154,158,0.6)]
+  active:scale-105
+">
+  Button Text
+</button>`,
   },
   {
     name: "Circuit Board",
@@ -1427,6 +1851,25 @@ $font-size: 1rem;
       inset 0 0 15px rgba(0, 255, 0, 0.2);
   }
 }`,
+    tailwind: `<button class="
+  bg-gray-950
+  text-green-500
+  px-8 py-4
+  border-2 border-green-500
+  rounded
+  text-base font-bold
+  cursor-pointer
+  font-mono
+  relative
+  transition-all duration-300 ease-in-out
+  hover:bg-green-950
+  hover:shadow-[0_0_10px_#00ff00,_inset_0_0_10px_rgba(0,255,0,0.1)]
+  hover:[text-shadow:0_0_5px_#00ff00]
+  active:bg-green-900
+  active:shadow-[0_0_15px_#00ff00,_inset_0_0_15px_rgba(0,255,0,0.2)]
+">
+  Button Text
+</button>`,
   },
   {
     name: "Frosted Glass",
@@ -1492,6 +1935,27 @@ $font-size: 1.1rem;
     background: $glass-active;
   }
 }`,
+    tailwind: `<button class="
+  bg-white/10
+  text-gray-700
+  px-8 py-4
+  border border-white/20
+  rounded-[20px]
+  text-lg font-semibold
+  cursor-pointer
+  backdrop-blur-md backdrop-saturate-180
+  shadow-[0_8px_32px_rgba(31,38,135,0.2)]
+  transition-all duration-300 ease-in-out
+  relative
+  hover:bg-white/20
+  hover:-translate-y-0.5
+  hover:shadow-[0_12px_40px_rgba(31,38,135,0.3)]
+  hover:border-white/30
+  active:translate-y-0
+  active:bg-white/15
+">
+  Button Text
+</button>`,
   },
   {
     name: "Electric Blue",
@@ -1558,6 +2022,26 @@ $electric-glow-strong: rgba(42, 82, 152, 0.6);
     box-shadow: 0 0 20px $electric-glow;
   }
 }`,
+    tailwind: `<button class="
+  bg-gradient-to-r from-blue-800 to-blue-600
+  text-white
+  px-8 py-4
+  border-none
+  rounded-lg
+  text-lg font-bold
+  cursor-pointer
+  shadow-[0_0_20px_rgba(42,82,152,0.4)]
+  transition-all duration-300 ease-in-out
+  relative
+  overflow-hidden
+  hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-800
+  hover:shadow-[0_0_30px_rgba(42,82,152,0.6),_0_0_60px_rgba(42,82,152,0.4)]
+  hover:-translate-y-0.5
+  active:translate-y-0
+  active:shadow-[0_0_20px_rgba(42,82,152,0.4)]
+">
+  Button Text
+</button>`,
   },
   {
     name: "Vintage Gold",
@@ -1637,6 +2121,26 @@ $font-size: 1.1rem;
       0 2px 4px rgba(0, 0, 0, 0.3);
   }
 }`,
+    tailwind: `<button class="
+  bg-gradient-to-br from-orange-500 to-yellow-400
+  text-amber-900
+  px-8 py-4
+  border-[3px] border-yellow-600
+  rounded-[10px]
+  text-lg font-bold
+  cursor-pointer
+  text-shadow-sm
+  shadow-[inset_0_2px_4px_rgba(255,210,0,0.6),_inset_0_-2px_4px_rgba(184,134,11,0.6),_0_4px_8px_rgba(0,0,0,0.3)]
+  transition-all duration-300 ease-in-out
+  relative
+  hover:bg-gradient-to-br hover:from-yellow-400 hover:to-orange-500
+  hover:-translate-y-0.5
+  hover:shadow-[inset_0_2px_4px_rgba(255,210,0,0.8),_inset_0_-2px_4px_rgba(184,134,11,0.6),_0_6px_12px_rgba(0,0,0,0.4)]
+  active:translate-y-0.5
+  active:shadow-[inset_0_2px_4px_rgba(184,134,11,0.6),_inset_0_-2px_4px_rgba(255,210,0,0.6),_0_2px_4px_rgba(0,0,0,0.3)]
+">
+  Button Text
+</button>`,
   },
   {
     name: "Cosmic Nebula",
@@ -1710,5 +2214,23 @@ $orange-glow-strong: rgba(252, 176, 69, 0.3);
     transform: scale(0.98);
   }
 }`,
+    tailwind: `<button class="
+  bg-[radial-gradient(ellipse_at_center,_#833ab4_0%,_#fd1d1d_50%,_#fcb045_100%)]
+  text-white
+  px-8 py-4
+  border-none
+  rounded-[25px]
+  text-lg font-bold
+  cursor-pointer
+  shadow-[0_0_20px_rgba(131,58,180,0.5),_0_0_40px_rgba(253,29,29,0.3),_0_0_60px_rgba(252,176,69,0.2)]
+  transition-all duration-[400ms] ease-in-out
+  relative
+  overflow-hidden
+  hover:scale-105
+  hover:shadow-[0_0_30px_rgba(131,58,180,0.7),_0_0_60px_rgba(253,29,29,0.5),_0_0_90px_rgba(252,176,69,0.3)]
+  active:scale-[0.98]
+">
+  Button Text
+</button>`,
   },
 ];

@@ -100,12 +100,18 @@ export default function Home() {
     // Update CSS preserving the original font-size and padding from the style
     const updatedCSS = ElementCSSManipulator.updateElementProperties(selectedStyle.css, mergedProps, ".element", true, true);
 
-    // Update both CSS and SCSS tabs
+    // Update CSS, SCSS, and Tailwind tabs
     setCodeValues((prev) => ({
       ...prev,
       css: updatedCSS,
       scss: selectedStyle.scss || updatedCSS, // Use SCSS if available, otherwise fall back to CSS
+      tailwind: selectedStyle.tailwind || prev.tailwind, // Use Tailwind if available, otherwise keep current
     }));
+
+    // Switch to Tailwind tab if the selected style has Tailwind code
+    if (selectedStyle.tailwind) {
+      setActiveTab("tailwind");
+    }
   };
 
   const updateElementProperty = (property: keyof ElementProperties, value: number) => {
